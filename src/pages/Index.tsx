@@ -20,13 +20,15 @@ export default function Index() {
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             Надоело играть по чужим правилам? Хочешь больше возможностей и крутых фишек? Обращайся!
           </p>
-          <Button 
-            size="lg" 
-            className="bg-retro-orange hover:bg-retro-orange/80 text-black font-orbitron font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-retro-orange/30"
-          >
-            <Icon name="Zap" className="mr-2" />
-            НАЧАТЬ СЕЙЧАС
-          </Button>
+          <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+            <Button 
+              size="lg" 
+              className="bg-retro-orange hover:bg-retro-orange/80 text-black font-orbitron font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-retro-orange/30"
+            >
+              <Icon name="MessageCircle" className="mr-2" />
+              НАПИСАТЬ В TELEGRAM
+            </Button>
+          </a>
         </div>
       </section>
 
@@ -179,6 +181,16 @@ export default function Index() {
               <CardDescription className="text-lg">
                 Пиши прямо сейчас и открой новые горизонты в любимых играх! 🚀
               </CardDescription>
+              <div className="bg-background/30 border border-primary/20 rounded-lg p-4 mt-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Icon name="Clock" className="text-primary" size={20} />
+                  <span className="font-orbitron font-bold text-primary">Важная информация</span>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  ⚠️ Могу ответить не сразу - иногда очень занят и могу не заходить в Telegram до недели. 
+                  У меня отключены уведомления, но я обязательно отвечу на все сообщения!
+                </p>
+              </div>
             </CardHeader>
             <CardContent>
               <form className="space-y-6">
@@ -205,14 +217,16 @@ export default function Index() {
                     className="bg-background/50 border-primary/30 focus:border-primary min-h-[120px]"
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  size="lg" 
-                  className="w-full bg-gradient-to-r from-retro-orange to-cyber-blue hover:from-retro-orange/80 hover:to-cyber-blue/80 text-black font-orbitron font-bold py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                >
-                  <Icon name="Send" className="mr-2" />
-                  ОТПРАВИТЬ ЗАПРОС
-                </Button>
+                <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer" className="block">
+                  <Button 
+                    type="button" 
+                    size="lg" 
+                    className="w-full bg-gradient-to-r from-retro-orange to-cyber-blue hover:from-retro-orange/80 hover:to-cyber-blue/80 text-black font-orbitron font-bold py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  >
+                    <Icon name="MessageCircle" className="mr-2" />
+                    НАПИСАТЬ В TELEGRAM
+                  </Button>
+                </a>
               </form>
             </CardContent>
           </Card>
@@ -226,10 +240,12 @@ export default function Index() {
             © 2024 Game Mods & Cheats. Твои игры, твои правила!
           </p>
           <div className="flex justify-center gap-6 mt-4">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
-              <Icon name="MessageCircle" className="mr-2" />
-              Telegram
-            </Button>
+            <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
+                <Icon name="MessageCircle" className="mr-2" />
+                @war_references
+              </Button>
+            </a>
             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
               <Icon name="Mail" className="mr-2" />
               Email
