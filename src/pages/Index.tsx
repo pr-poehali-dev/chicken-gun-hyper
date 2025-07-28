@@ -102,9 +102,11 @@ export default function Index() {
                   Создаю уникальные возможности для твоих карт за звезды в Telegram! 
                   Сделай свою игру неповторимой! 🌟
                 </p>
-                <Button variant="outline" className="border-cyber-blue text-cyber-blue hover:bg-cyber-blue hover:text-black">
-                  Узнать больше
-                </Button>
+                <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="border-cyber-blue text-cyber-blue hover:bg-cyber-blue hover:text-black">
+                    Узнать больше
+                  </Button>
+                </a>
               </CardContent>
             </Card>
 
@@ -126,9 +128,11 @@ export default function Index() {
                 <p className="mb-4">
                   Расширь границы своей креативности! 🛠️
                 </p>
-                <Button variant="outline" className="border-retro-orange text-retro-orange hover:bg-retro-orange hover:text-black">
-                  Подробнее
-                </Button>
+                <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="border-retro-orange text-retro-orange hover:bg-retro-orange hover:text-black">
+                    Подробнее
+                  </Button>
+                </a>
               </CardContent>
             </Card>
           </div>
@@ -181,15 +185,42 @@ export default function Index() {
               <CardDescription className="text-lg">
                 Пиши прямо сейчас и открой новые горизонты в любимых играх! 🚀
               </CardDescription>
-              <div className="bg-background/30 border border-primary/20 rounded-lg p-4 mt-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Icon name="Clock" className="text-primary" size={20} />
-                  <span className="font-orbitron font-bold text-primary">Важная информация</span>
+              <div className="space-y-4 mt-4">
+                {/* Response Time Warning */}
+                <div className="bg-background/30 border border-primary/20 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Icon name="Clock" className="text-primary" size={20} />
+                    <span className="font-orbitron font-bold text-primary">Ответ не сразу</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    ⚠️ Могу ответить не сразу - иногда очень занят и могу не заходить в Telegram до недели. 
+                    У меня отключены уведомления, но я обязательно отвечу!
+                  </p>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  ⚠️ Могу ответить не сразу - иногда очень занят и могу не заходить в Telegram до недели. 
-                  У меня отключены уведомления, но я обязательно отвечу на все сообщения!
-                </p>
+                
+                {/* Payment Info */}
+                <div className="bg-background/30 border border-cyber-blue/20 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Icon name="Star" className="text-cyber-blue" size={20} />
+                    <span className="font-orbitron font-bold text-cyber-blue">Оплата</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    🎆 Оплата только звёздами в Telegram! Цена договорная, а для Chicken Gun всё БЕСПЛАТНО! 
+                    Иногда могу сделать просто так бесплатно ради прикола 😄
+                  </p>
+                </div>
+                
+                {/* Disclaimer */}
+                <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Icon name="AlertTriangle" className="text-destructive" size={20} />
+                    <span className="font-orbitron font-bold text-destructive">Ответственность</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    ⚠️ Мои услуги могут нарушать правила игры. Я не отвечаю за блокировки! 
+                    Делаю это ради фана и прикола. В Chicken Gun блокировок нет! 🐔
+                  </p>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
@@ -246,10 +277,7 @@ export default function Index() {
                 @war_references
               </Button>
             </a>
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
-              <Icon name="Mail" className="mr-2" />
-              Email
-            </Button>
+
           </div>
         </div>
       </footer>
