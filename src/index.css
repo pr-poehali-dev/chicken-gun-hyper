@@ -101,3 +101,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Mobile-first responsive styles */
+@layer utilities {
+  .mobile-text {
+    @apply text-sm leading-relaxed;
+  }
+  
+  .mobile-button {
+    @apply px-4 py-3 text-sm;
+  }
+  
+  .mobile-card {
+    @apply p-4;
+  }
+  
+  /* Ensure all text is readable on mobile */
+  @screen max-sm {
+    h1 { @apply text-2xl !important; }
+    h2 { @apply text-xl !important; }
+    h3 { @apply text-lg !important; }
+    p { @apply text-sm leading-6 !important; }
+    
+    /* Make buttons touch-friendly */
+    button { @apply min-h-[44px] !important; }
+    
+    /* Improve card spacing on mobile */
+    .container { @apply px-4 !important; }
+  }
+}

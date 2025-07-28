@@ -195,15 +195,100 @@ export default function Index() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="mb-4">
+                <p className="mb-6 text-sm md:text-base">
                   Создаю уникальные возможности для твоих карт за звезды в Telegram! 
                   Сделай свою игру неповторимой! 🌟
                 </p>
-                <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="border-cyber-blue text-cyber-blue hover:bg-cyber-blue hover:text-black">
-                    Узнать больше
-                  </Button>
-                </a>
+                <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+                  <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="border-cyber-blue text-cyber-blue hover:bg-cyber-blue hover:text-black w-full sm:w-auto">
+                      Узнать больше
+                    </Button>
+                  </a>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="bg-green-600 hover:bg-green-700 text-white font-bold w-full sm:w-auto">
+                        🎁 БЕСПЛАТНО
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle className="font-orbitron text-center text-xl">
+                          🎁 Бесплатная услуга для ROBLOX
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4 mt-4">
+                        <p className="text-center text-sm md:text-base">
+                          Вы можете бесплатно получить услугу для ROBLOX! 
+                          Для этого введите ключ ниже.
+                        </p>
+                        <div className="text-center">
+                          <a href="https://go.linkify.ru/26Wt" target="_blank" rel="noopener noreferrer">
+                            <Button variant="outline" className="mb-4">
+                              🔑 Получить ключ
+                            </Button>
+                          </a>
+                        </div>
+                        <div className="space-y-3">
+                          <label className="text-sm font-medium">Введите ключ:</label>
+                          <input 
+                            type="text"
+                            placeholder="Введите ключ здесь..."
+                            className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                            id="keyInput"
+                          />
+                          <Button 
+                            className="w-full"
+                            onClick={() => {
+                              const input = document.getElementById('keyInput') as HTMLInputElement;
+                              if (input?.value.toLowerCase() === 'bear') {
+                                // Открыть окно успеха
+                                const dialog = document.querySelector('[data-dialog="success"]') as HTMLElement;
+                                if (dialog) {
+                                  dialog.click();
+                                }
+                              } else {
+                                alert('Неверный ключ! Попробуйте еще раз.');
+                              }
+                            }}
+                          >
+                            Проверить ключ
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  
+                  {/* Success Dialog */}
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button data-dialog="success" className="hidden">Success</button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle className="font-orbitron text-center text-xl text-green-600">
+                          🎉 Поздравляем!
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4 mt-4 text-center">
+                        <p className="text-sm md:text-base">
+                          Вы получили бесплатную услугу! Теперь перейдите ко мне в Telegram 
+                          и отправьте мне код ниже:
+                        </p>
+                        <div className="bg-muted p-4 rounded-lg">
+                          <code className="text-sm font-mono break-all">
+                            ROBLOX_FREE_2024_{Math.random().toString(36).substring(2, 15).toUpperCase()}
+                          </code>
+                        </div>
+                        <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+                          <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                            📱 Перейти в Telegram
+                          </Button>
+                        </a>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </CardContent>
             </Card>
 
