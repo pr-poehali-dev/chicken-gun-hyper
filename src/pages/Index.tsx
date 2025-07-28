@@ -2,9 +2,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/ui/icon";
+import { useState } from "react";
 
 export default function Index() {
+  const [isInstructionOpen, setIsInstructionOpen] = useState(false);
+
+  const handleDownloadFile = () => {
+    // Имитация скачивания файла
+    const link = document.createElement('a');
+    link.href = '#'; // В реальности здесь будет ссылка на файл
+    link.download = 'chicken_gun_mod.apk';
+    link.click();
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground font-share-tech">
       {/* Hero Section */}
@@ -72,7 +84,78 @@ export default function Index() {
                 </div>
               </div>
               <div className="text-center mt-6">
-                <p className="font-orbitron text-cyber-blue text-xl">✨ И это еще не все! ✨</p>
+                <p className="font-orbitron text-cyber-blue text-xl mb-4">✨ И это еще не все! ✨</p>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button 
+                      className="bg-retro-orange hover:bg-retro-orange/80 text-black font-orbitron font-bold px-6 py-3 transition-all duration-300 hover:scale-105"
+                    >
+                      <Icon name="Download" className="mr-2" />
+                      ПОЛУЧИТЬ CHICKEN GUN МОД
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl bg-card border-retro-orange/30">
+                    <DialogHeader>
+                      <DialogTitle className="font-orbitron text-2xl text-retro-orange flex items-center gap-2">
+                        <Icon name="Key" size={24} />
+                        🐔 Инструкция для Chicken Gun
+                      </DialogTitle>
+                      <DialogDescription className="text-muted-foreground">
+                        Пошаговая инструкция для получения всех возможностей
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-6 mt-4">
+                      {/* Step 1 */}
+                      <div className="border border-retro-orange/20 rounded-lg p-4 bg-background/30">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="bg-retro-orange text-black font-orbitron font-bold w-8 h-8 rounded-full flex items-center justify-center">1</div>
+                          <h3 className="font-orbitron font-bold text-retro-orange">Загрузка артефакта</h3>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Скачайте таинственный файл, который я вам отправляю. Этот файл – ключ к новым возможностям!
+                        </p>
+                        <Button 
+                          onClick={handleDownloadFile}
+                          className="bg-retro-orange/20 border border-retro-orange text-retro-orange hover:bg-retro-orange hover:text-black"
+                          variant="outline"
+                        >
+                          <Icon name="Download" className="mr-2" />
+                          Скачать файл
+                        </Button>
+                      </div>
+
+                      {/* Step 2 */}
+                      <div className="border border-cyber-blue/20 rounded-lg p-4 bg-background/30">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="bg-cyber-blue text-black font-orbitron font-bold w-8 h-8 rounded-full flex items-center justify-center">2</div>
+                          <h3 className="font-orbitron font-bold text-cyber-blue">Врата в новый мир</h3>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Откройте скачанное приложение. Перед вами возникнет кнопка, манящая надписью "Войти как гость" 
+                          или ей подобной. Нажмите на нее – и вы окажетесь на пороге неизведанного.
+                        </p>
+                      </div>
+
+                      {/* Step 3 */}
+                      <div className="border border-primary/20 rounded-lg p-4 bg-background/30">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="bg-primary text-primary-foreground font-orbitron font-bold w-8 h-8 rounded-full flex items-center justify-center">3</div>
+                          <h3 className="font-orbitron font-bold text-primary">Связь с мастером</h3>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Но это лишь начало вашего пути! Чтобы постичь все тонкости и секреты, свяжитесь со мной. 
+                          Я лично раскрою вам следующие шаги и отвечу на все ваши вопросы.
+                        </p>
+                        <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+                          <Button className="bg-gradient-to-r from-retro-orange to-cyber-blue hover:from-retro-orange/80 hover:to-cyber-blue/80 text-black font-orbitron font-bold">
+                            <Icon name="MessageCircle" className="mr-2" />
+                            Связаться в Telegram для дальнейших инструкций
+                          </Button>
+                        </a>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </CardContent>
           </Card>
