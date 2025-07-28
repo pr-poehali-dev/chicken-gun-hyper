@@ -28,15 +28,33 @@ export default function Index() {
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             Надоело играть по чужим правилам? Хочешь больше возможностей и крутых фишек? Обращайся!
           </p>
-          <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
-            <Button 
-              size="lg" 
-              className="bg-retro-orange hover:bg-retro-orange/80 text-black font-orbitron font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-retro-orange/30"
-            >
-              <Icon name="MessageCircle" className="mr-2" />
-              НАПИСАТЬ В TELEGRAM
-            </Button>
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+            <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+              <Button 
+                size="lg" 
+                className="bg-retro-orange hover:bg-retro-orange/80 text-black font-orbitron font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-retro-orange/30"
+              >
+                <Icon name="MessageCircle" className="mr-2" />
+                НАПИСАТЬ В TELEGRAM
+              </Button>
+            </a>
+            
+            <div className="text-center">
+              <a href="https://go.linkify.ru/1pVa" target="_blank" rel="noopener noreferrer">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground font-orbitron font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/30"
+                >
+                  <Icon name="Heart" className="mr-2" />
+                  ПОДДЕРЖИ МЕНЯ
+                </Button>
+              </a>
+              <p className="text-xs text-muted-foreground mt-2 max-w-[200px]">
+                💸 Нужно выполнить задание, чтобы поддержать меня - я за это получу деньги!
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
