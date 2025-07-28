@@ -108,9 +108,9 @@ export default function Index() {
                       ПОЛУЧИТЬ CHICKEN GUN МОД
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl bg-card border-retro-orange/30">
+                  <DialogContent className="max-w-2xl max-w-[95vw] mx-2 bg-card border-retro-orange/30 max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
-                      <DialogTitle className="font-orbitron text-2xl text-retro-orange flex items-center gap-2">
+                      <DialogTitle className="font-orbitron text-lg sm:text-2xl text-retro-orange flex items-center gap-2">
                         <Icon name="Key" size={24} />
                         🐔 Инструкция для Chicken Gun
                       </DialogTitle>
@@ -121,11 +121,11 @@ export default function Index() {
                     <div className="space-y-6 mt-4">
                       {/* Step 1 */}
                       <div className="border border-retro-orange/20 rounded-lg p-4 bg-background/30">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="bg-retro-orange text-black font-orbitron font-bold w-8 h-8 rounded-full flex items-center justify-center">1</div>
-                          <h3 className="font-orbitron font-bold text-retro-orange">Загрузка артефакта</h3>
+                        <div className="flex items-center gap-2 sm:gap-3 mb-3">
+                          <div className="bg-retro-orange text-black font-orbitron font-bold w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm">1</div>
+                          <h3 className="font-orbitron font-bold text-retro-orange text-sm sm:text-base">Загрузка артефакта</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-4">
+                        <p className="text-xs sm:text-sm text-muted-foreground mb-4 leading-relaxed">
                           Скачайте таинственный файл, который я вам отправляю. Этот файл – ключ к новым возможностям!
                         </p>
                         <Button 
@@ -140,11 +140,11 @@ export default function Index() {
 
                       {/* Step 2 */}
                       <div className="border border-cyber-blue/20 rounded-lg p-4 bg-background/30">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="bg-cyber-blue text-black font-orbitron font-bold w-8 h-8 rounded-full flex items-center justify-center">2</div>
-                          <h3 className="font-orbitron font-bold text-cyber-blue">Врата в новый мир</h3>
+                        <div className="flex items-center gap-2 sm:gap-3 mb-3">
+                          <div className="bg-cyber-blue text-black font-orbitron font-bold w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm">2</div>
+                          <h3 className="font-orbitron font-bold text-cyber-blue text-sm sm:text-base">Врата в новый мир</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                           Откройте скачанное приложение. Перед вами возникнет кнопка, манящая надписью "Войти как гость" 
                           или ей подобной. Нажмите на нее – и вы окажетесь на пороге неизведанного.
                         </p>
@@ -152,11 +152,11 @@ export default function Index() {
 
                       {/* Step 3 */}
                       <div className="border border-primary/20 rounded-lg p-4 bg-background/30">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="bg-primary text-primary-foreground font-orbitron font-bold w-8 h-8 rounded-full flex items-center justify-center">3</div>
-                          <h3 className="font-orbitron font-bold text-primary">Связь с мастером</h3>
+                        <div className="flex items-center gap-2 sm:gap-3 mb-3">
+                          <div className="bg-primary text-primary-foreground font-orbitron font-bold w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm">3</div>
+                          <h3 className="font-orbitron font-bold text-primary text-sm sm:text-base">Связь с мастером</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-4">
+                        <p className="text-xs sm:text-sm text-muted-foreground mb-4 leading-relaxed">
                           Но это лишь начало вашего пути! Чтобы постичь все тонкости и секреты, свяжитесь со мной. 
                           Я лично раскрою вам следующие шаги и отвечу на все ваши вопросы.
                         </p>
