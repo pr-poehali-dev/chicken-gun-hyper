@@ -10,11 +10,7 @@ export default function Index() {
   const [isInstructionOpen, setIsInstructionOpen] = useState(false);
 
   const handleDownloadFile = () => {
-    // Имитация скачивания файла
-    const link = document.createElement('a');
-    link.href = '#'; // В реальности здесь будет ссылка на файл
-    link.download = 'chicken_gun_mod.apk';
-    link.click();
+    window.open('https://www.mediafire.com/file/w7r3jx0tn9icttb/base.apk/file', '_blank');
   };
 
   return (
