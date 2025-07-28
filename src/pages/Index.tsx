@@ -211,14 +211,14 @@ export default function Index() {
                         🎁 БЕСПЛАТНО
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
+                    <DialogContent className="sm:max-w-md max-w-[95vw] mx-2">
                       <DialogHeader>
-                        <DialogTitle className="font-orbitron text-center text-xl">
+                        <DialogTitle className="font-orbitron text-center text-lg sm:text-xl">
                           🎁 Бесплатная услуга для ROBLOX
                         </DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4 mt-4">
-                        <p className="text-center text-sm md:text-base">
+                        <p className="text-center text-sm leading-relaxed">
                           Вы можете бесплатно получить услугу для ROBLOX! 
                           Для этого введите ключ ниже.
                         </p>
@@ -238,22 +238,29 @@ export default function Index() {
                             id="keyInput"
                           />
                           <Button 
-                            className="w-full"
+                            className="w-full mb-3"
                             onClick={() => {
                               const input = document.getElementById('keyInput') as HTMLInputElement;
-                              if (input?.value.toLowerCase() === 'bear') {
+                              if (input?.value === 'bear') {
                                 // Открыть окно успеха
                                 const dialog = document.querySelector('[data-dialog="success"]') as HTMLElement;
                                 if (dialog) {
                                   dialog.click();
                                 }
                               } else {
-                                alert('Неверный ключ! Попробуйте еще раз.');
+                                alert('Неправильный ключ!');
                               }
                             }}
                           >
                             Проверить ключ
                           </Button>
+                          <div className="text-center">
+                            <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
+                              <Button variant="outline" className="w-full text-xs">
+                                🤔 Ничего не понимаю, помогите!
+                              </Button>
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </DialogContent>
@@ -264,20 +271,20 @@ export default function Index() {
                     <DialogTrigger asChild>
                       <button data-dialog="success" className="hidden">Success</button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
+                    <DialogContent className="sm:max-w-md max-w-[95vw] mx-2">
                       <DialogHeader>
-                        <DialogTitle className="font-orbitron text-center text-xl text-green-600">
+                        <DialogTitle className="font-orbitron text-center text-lg sm:text-xl text-green-600">
                           🎉 Поздравляем!
                         </DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4 mt-4 text-center">
-                        <p className="text-sm md:text-base">
+                        <p className="text-sm leading-relaxed">
                           Вы получили бесплатную услугу! Теперь перейдите ко мне в Telegram 
                           и отправьте мне код ниже:
                         </p>
                         <div className="bg-muted p-4 rounded-lg">
-                          <code className="text-sm font-mono break-all">
-                            ROBLOX_FREE_2024_{Math.random().toString(36).substring(2, 15).toUpperCase()}
+                          <code className="text-xs sm:text-sm font-mono break-all">
+                            12345Bear 555
                           </code>
                         </div>
                         <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
