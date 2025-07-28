@@ -17,6 +17,10 @@ export default {
 				'2xl': '1400px'
 			}
 		},
+		fontFamily: {
+			'orbitron': ['Orbitron', 'monospace'],
+			'share-tech': ['Share Tech Mono', 'monospace'],
+		},
 		extend: {
 			colors: {
 				border: 'hsl(var(--border))',
@@ -61,7 +65,11 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				'retro-orange': '#FF6B35',
+				'cyber-blue': '#00D4FF',
+				'pixel-dark': '#1A1A1A',
+				'pixel-light': '#FFFFFF'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
