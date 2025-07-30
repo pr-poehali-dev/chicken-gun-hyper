@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/ui/icon";
+import SpaceCollector from "@/components/SpaceCollector";
 import { useState } from "react";
 
 export default function Index() {
@@ -360,6 +361,22 @@ export default function Index() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      {/* Mini Game Section */}
+      <section className="py-16 px-4 bg-gradient-to-b from-background to-pixel-dark/20">
+        <div className="container mx-auto text-center">
+          <h2 className="font-orbitron text-3xl md:text-4xl text-retro-orange mb-4">
+            🎮 Мини-игра: Космический Сбор
+          </h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Пока ждёшь ответ в Telegram, развлекись увлекательной игрой! 
+            Собирай монеты, избегай бомб и устанавливай новые рекорды! 🚀
+          </p>
+          <div className="flex justify-center">
+            <SpaceCollector />
+          </div>
         </div>
       </section>
 
