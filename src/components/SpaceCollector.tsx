@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { soundSystem } from '@/utils/soundSystem';
 
 interface FallingItem {
   id: number;
@@ -29,10 +30,12 @@ const SpaceCollector: React.FC = () => {
     coinsCollected: 0
   });
   const [highScore, setHighScore] = useState(0);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
   const lastSpawnRef = useRef<number>(0);
   const gameTimeRef = useRef<number>(0);
+  const previousLevelRef = useRef<number>(1);
 
   // Load high score from localStorage
   useEffect(() => {
@@ -40,13 +43,24 @@ const SpaceCollector: React.FC = () => {
     if (saved) setHighScore(parseInt(saved));
   }, []);
 
-  // Save high score
+  // Save high score and play new record sound
   useEffect(() => {
-    if (stats.score > highScore) {
+    if (stats.score > highScore && stats.score > 0) {
       setHighScore(stats.score);
       localStorage.setItem('spaceCollectorHighScore', stats.score.toString());
+      if (soundEnabled && gameState === 'gameOver') {
+        soundSystem.playNewRecord();
+      }
     }
-  }, [stats.score, highScore]);
+  }, [stats.score, highScore, soundEnabled, gameState]);
+
+  // Play level up sound
+  useEffect(() => {
+    if (stats.level > previousLevelRef.current && soundEnabled && gameState === 'playing') {
+      soundSystem.playLevelUp();
+      previousLevelRef.current = stats.level;
+    }
+  }, [stats.level, soundEnabled, gameState]);
 
   const spawnItem = useCallback(() => {
     const now = Date.now();
@@ -114,10 +128,13 @@ const SpaceCollector: React.FC = () => {
             if (item.type === 'coin') {
               newStats.score += 10;
               newStats.coinsCollected += 1;
+              if (soundEnabled) soundSystem.playCoinCollect();
             } else if (item.type === 'gem') {
               newStats.score += 50;
+              if (soundEnabled) soundSystem.playGemCollect();
             } else if (item.type === 'bomb') {
               newStats.lives -= 1;
+              if (soundEnabled) soundSystem.playBombHit();
             }
 
             // Level up every 20 coins
@@ -140,6 +157,9 @@ const SpaceCollector: React.FC = () => {
     // Check game over
     if (stats.lives <= 0) {
       setGameState('gameOver');
+      if (soundEnabled) {
+        setTimeout(() => soundSystem.playGameOver(), 100);
+      }
       return;
     }
 
@@ -171,9 +191,17 @@ const SpaceCollector: React.FC = () => {
     setItems([]);
     setPlayerX(50);
     setStats({ score: 0, lives: 3, level: 1, coinsCollected: 0 });
+    previousLevelRef.current = 1;
     lastSpawnRef.current = 0;
     gameTimeRef.current = 0;
+    if (soundEnabled) {
+      soundSystem.playGameStart();
+    }
     animationRef.current = requestAnimationFrame(updateGame);
+  };
+
+  const toggleSound = () => {
+    setSoundEnabled(prev => !prev);
   };
 
   const resetGame = () => {
@@ -207,10 +235,20 @@ const SpaceCollector: React.FC = () => {
   return (
     <Card className="bg-card/90 backdrop-blur border-retro-orange/30 p-6 w-full max-w-md mx-auto">
       <div className="text-center mb-4">
-        <h3 className="font-orbitron text-xl text-retro-orange mb-2 flex items-center justify-center gap-2">
-          <Icon name="Rocket" size={20} />
-          Космический Сбор
-        </h3>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-orbitron text-xl text-retro-orange flex items-center gap-2">
+            <Icon name="Rocket" size={20} />
+            Космический Сбор
+          </h3>
+          <Button
+            onClick={toggleSound}
+            variant="ghost"
+            size="sm"
+            className={`p-2 ${soundEnabled ? 'text-retro-orange' : 'text-muted-foreground'}`}
+          >
+            <Icon name={soundEnabled ? 'Volume2' : 'VolumeX'} size={16} />
+          </Button>
+        </div>
         
         {gameState === 'playing' && (
           <div className="flex justify-between text-sm mb-4">
