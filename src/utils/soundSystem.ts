@@ -155,6 +155,34 @@ class SoundSystem {
     ]);
   }
 
+  async playChickenClick1() {
+    await this.ensureAudioContext();
+    // High pitched chicken sound
+    await this.playSequence([
+      { frequency: 800, duration: 0.05, type: 'square', volume: 0.4 },
+      { frequency: 1200, duration: 0.08, type: 'square', volume: 0.6 },
+      { frequency: 900, duration: 0.06, type: 'square', volume: 0.3 }
+    ]);
+  }
+
+  async playChickenClick2() {
+    await this.ensureAudioContext();
+    // Lower pitched chicken sound
+    await this.playSequence([
+      { frequency: 600, duration: 0.08, type: 'square', volume: 0.5 },
+      { frequency: 400, duration: 0.1, type: 'square', volume: 0.7 },
+      { frequency: 500, duration: 0.05, type: 'square', volume: 0.4 }
+    ]);
+  }
+
+  async playRandomChickenSound() {
+    if (Math.random() > 0.5) {
+      await this.playChickenClick1();
+    } else {
+      await this.playChickenClick2();
+    }
+  }
+
   setVolume(volume: number) {
     this.masterVolume = Math.max(0, Math.min(1, volume));
   }

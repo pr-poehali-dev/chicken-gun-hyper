@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/ui/icon";
 import SpaceCollector from "@/components/SpaceCollector";
+import ChickenClicker from "@/components/ChickenClicker";
 import { useState } from "react";
 
 export default function Index() {
@@ -368,14 +369,31 @@ export default function Index() {
       <section className="py-16 px-4 bg-gradient-to-b from-background to-pixel-dark/20">
         <div className="container mx-auto text-center">
           <h2 className="font-orbitron text-3xl md:text-4xl text-retro-orange mb-4">
-            🎮 Мини-игра: Космический Сбор
+            🎮 Мини-игры
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Пока ждёшь ответ в Telegram, развлекись увлекательной игрой! 
-            Собирай монеты, избегай бомб и устанавливай новые рекорды! 🚀
+            Пока ждёшь ответ в Telegram, развлекись увлекательными играми! 
+            Обе игры созданы @war_references специально для тебя! 🚀
           </p>
-          <div className="flex justify-center">
-            <SpaceCollector />
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="space-y-4">
+              <h3 className="font-orbitron text-xl text-center text-retro-orange">
+                🚀 Космический Сбор
+              </h3>
+              <p className="text-sm text-center text-muted-foreground mb-4">
+                Собирай монеты, избегай бомб!
+              </p>
+              <SpaceCollector />
+            </div>
+            <div className="space-y-4">
+              <h3 className="font-orbitron text-xl text-center text-yellow-500">
+                🐔 Куриная Империя
+              </h3>
+              <p className="text-sm text-center text-muted-foreground mb-4">
+                Кликай по курице, покупай улучшения!
+              </p>
+              <ChickenClicker />
+            </div>
           </div>
         </div>
       </section>

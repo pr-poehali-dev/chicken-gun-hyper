@@ -341,6 +341,11 @@ const SpaceCollector: React.FC = () => {
           <div className="absolute bottom-2 left-2 text-xs text-white/50">
             Перемещайте мышью или пальцем
           </div>
+          
+          {/* Author signature */}
+          <div className="absolute bottom-2 right-2 text-xs text-white/40">
+            by @war_references
+          </div>
         </div>
       )}
 
@@ -355,6 +360,11 @@ const SpaceCollector: React.FC = () => {
             {stats.score === highScore && stats.score > 0 && (
               <div className="text-yellow-400 font-bold animate-pulse">🏆 Новый рекорд!</div>
             )}
+          </div>
+          
+          {/* Author signature */}
+          <div className="text-xs text-muted-foreground/60 mt-4">
+            Игра создана @war_references
           </div>
 
           <div className="flex gap-2">
