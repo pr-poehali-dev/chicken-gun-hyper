@@ -7,6 +7,7 @@ import Icon from "@/components/ui/icon";
 import SpaceCollector from "@/components/SpaceCollector";
 import ChickenClicker from "@/components/ChickenClicker";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Index() {
   const [isInstructionOpen, setIsInstructionOpen] = useState(false);
@@ -365,34 +366,56 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Mini Game Section */}
+      {/* Games Section */}
       <section className="py-16 px-4 bg-gradient-to-b from-background to-pixel-dark/20">
         <div className="container mx-auto text-center">
           <h2 className="font-orbitron text-3xl md:text-4xl text-retro-orange mb-4">
-            🎮 Мини-игры
+            🎮 Игровая Вселенная
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Пока ждёшь ответ в Telegram, развлекись увлекательными играми! 
-            Обе игры созданы @war_references специально для тебя! 🚀
+            Целая коллекция увлекательных игр ждёт тебя! Аркады, стратегии, чат - 
+            всё это создано @war_references специально для тебя! 🚀
           </p>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="space-y-4">
-              <h3 className="font-orbitron text-xl text-center text-retro-orange">
-                🚀 Космический Сбор
-              </h3>
-              <p className="text-sm text-center text-muted-foreground mb-4">
-                Собирай монеты, избегай бомб!
-              </p>
-              <SpaceCollector />
+          
+          {/* Превью игр */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-8">
+            <div className="p-4 bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 rounded-lg">
+              <div className="text-3xl mb-2">🚀</div>
+              <h3 className="font-semibold text-blue-400 mb-1">Космический Сбор</h3>
+              <p className="text-xs text-muted-foreground">Аркадная игра</p>
             </div>
-            <div className="space-y-4">
-              <h3 className="font-orbitron text-xl text-center text-yellow-500">
-                🐔 Куриная Империя
-              </h3>
-              <p className="text-sm text-center text-muted-foreground mb-4">
-                Кликай по курице, покупай улучшения!
-              </p>
-              <ChickenClicker />
+            <div className="p-4 bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-500/30 rounded-lg">
+              <div className="text-3xl mb-2">🐔</div>
+              <h3 className="font-semibold text-yellow-400 mb-1">Куриная Империя</h3>
+              <p className="text-xs text-muted-foreground">Стратегический кликер</p>
+            </div>
+            <div className="p-4 bg-gradient-to-br from-green-900/20 to-teal-900/20 border border-green-500/30 rounded-lg">
+              <div className="text-3xl mb-2">🌍</div>
+              <h3 className="font-semibold text-green-400 mb-1">Исследователь</h3>
+              <p className="text-xs text-muted-foreground">2D приключения</p>
+            </div>
+            <div className="p-4 bg-gradient-to-br from-red-900/20 to-pink-900/20 border border-red-500/30 rounded-lg">
+              <div className="text-3xl mb-2">⚔️</div>
+              <h3 className="font-semibold text-red-400 mb-1">Защитник</h3>
+              <p className="text-xs text-muted-foreground">Tower Defense</p>
+            </div>
+          </div>
+
+          <Link to="/games">
+            <Button className="bg-retro-orange hover:bg-retro-orange/90 text-white px-8 py-4 text-lg font-bold rounded-xl transform transition-all duration-300 hover:scale-105 shadow-lg">
+              🎮 Играть сейчас!
+            </Button>
+          </Link>
+          
+          <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
+            <div className="px-3 py-1 bg-green-600/20 text-green-400 rounded-full">
+              ✅ 5 уникальных игр
+            </div>
+            <div className="px-3 py-1 bg-blue-600/20 text-blue-400 rounded-full">
+              💬 Живой чат
+            </div>
+            <div className="px-3 py-1 bg-purple-600/20 text-purple-400 rounded-full">
+              🆓 Абсолютно бесплатно
             </div>
           </div>
         </div>
