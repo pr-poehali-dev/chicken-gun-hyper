@@ -5,6 +5,8 @@ import ChickenClicker from '@/components/ChickenClicker';
 import WalkingGame from '@/components/WalkingGame';
 import DefenseGame from '@/components/DefenseGame';
 import LiveChat from '@/components/LiveChat';
+import AdminPanel from '@/components/AdminPanel';
+import { AdminProvider } from '@/contexts/AdminContext';
 
 type GameType = 'space' | 'chicken' | 'walking' | 'defense' | 'chat';
 
@@ -80,7 +82,8 @@ export default function Games() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pixel-dark via-gray-900 to-pixel-dark">
+    <AdminProvider>
+      <div className="min-h-screen bg-gradient-to-br from-pixel-dark via-gray-900 to-pixel-dark">
       {/* Заголовок */}
       <div className="container mx-auto px-4 py-8">
         {/* Навигация */}
@@ -226,6 +229,10 @@ export default function Games() {
           </div>
         )}
       </div>
+      
+      {/* Админ-панель */}
+      <AdminPanel />
     </div>
+    </AdminProvider>
   );
 }

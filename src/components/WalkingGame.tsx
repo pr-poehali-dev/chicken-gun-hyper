@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
+import { useAdmin } from '@/contexts/AdminContext';
 
 interface Position {
   x: number;
@@ -18,6 +19,7 @@ const GRID_SIZE = 15;
 const CELL_SIZE = 24;
 
 export default function WalkingGame() {
+  const { adminCheats } = useAdmin();
   const [playerPos, setPlayerPos] = useState<Position>({ x: 7, y: 7 });
   const [items, setItems] = useState<Item[]>([]);
   const [score, setScore] = useState(0);
@@ -91,13 +93,16 @@ export default function WalkingGame() {
         
         switch (collectedItem.type) {
           case 'coin':
-            setScore(prev => prev + 10);
+            const coinValue = adminCheats.infiniteMoney ? 100 : 10;
+            setScore(prev => prev + coinValue);
             break;
           case 'gem':
-            setScore(prev => prev + 50);
+            const gemValue = adminCheats.infiniteMoney ? 500 : 50;
+            setScore(prev => prev + gemValue);
             break;
           case 'heart':
-            setHealth(prev => Math.min(100, prev + 20));
+            const healthValue = adminCheats.godMode ? 100 : 20;
+            setHealth(prev => Math.min(100, prev + healthValue));
             break;
         }
       }
@@ -148,14 +153,16 @@ export default function WalkingGame() {
     if (!gameStarted) return;
 
     const healthTimer = setInterval(() => {
-      setHealth(prev => {
-        const newHealth = prev - 1;
-        if (newHealth <= 0) {
-          setGameStarted(false);
-          return 0;
-        }
-        return newHealth;
-      });
+      if (!adminCheats.godMode) {
+        setHealth(prev => {
+          const newHealth = prev - 1;
+          if (newHealth <= 0) {
+            setGameStarted(false);
+            return 0;
+          }
+          return newHealth;
+        });
+      }
     }, 2000);
 
     return () => clearInterval(healthTimer);

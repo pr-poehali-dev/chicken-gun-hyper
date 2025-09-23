@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { soundSystem } from '@/utils/soundSystem';
+import { useAdmin } from '@/contexts/AdminContext';
 
 interface Upgrade {
   id: string;
@@ -15,6 +16,7 @@ interface Upgrade {
 }
 
 const ChickenClicker: React.FC = () => {
+  const { adminCheats } = useAdmin();
   const [eggs, setEggs] = useState(0);
   const [totalEggs, setTotalEggs] = useState(0);
   const [eggPerClick, setEggPerClick] = useState(1);
@@ -86,8 +88,9 @@ const ChickenClicker: React.FC = () => {
     const x = ((event.clientX - rect.left) / rect.width) * 100;
     const y = ((event.clientY - rect.top) / rect.height) * 100;
 
-    setEggs(prev => prev + eggPerClick);
-    setTotalEggs(prev => prev + eggPerClick);
+    const clickValue = adminCheats.infiniteMoney ? eggPerClick * 1000 : eggPerClick;
+    setEggs(prev => prev + clickValue);
+    setTotalEggs(prev => prev + clickValue);
     setClickAnimation(true);
     
     // Add floating text
@@ -113,9 +116,11 @@ const ChickenClicker: React.FC = () => {
 
   const buyUpgrade = useCallback((upgradeId: string) => {
     const upgrade = upgrades.find(u => u.id === upgradeId);
-    if (!upgrade || eggs < upgrade.cost) return;
+    if (!upgrade || (!adminCheats.infiniteMoney && eggs < upgrade.cost)) return;
 
-    setEggs(prev => prev - upgrade.cost);
+    if (!adminCheats.infiniteMoney) {
+      setEggs(prev => prev - upgrade.cost);
+    }
     setUpgrades(prev => prev.map(u => {
       if (u.id === upgradeId) {
         return {

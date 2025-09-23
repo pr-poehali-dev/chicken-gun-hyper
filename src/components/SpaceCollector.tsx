@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { soundSystem } from '@/utils/soundSystem';
+import { useAdmin } from '@/contexts/AdminContext';
 
 interface FallingItem {
   id: number;
@@ -20,6 +21,7 @@ interface GameStats {
 }
 
 const SpaceCollector: React.FC = () => {
+  const { adminCheats } = useAdmin();
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'gameOver'>('menu');
   const [items, setItems] = useState<FallingItem[]>([]);
   const [playerX, setPlayerX] = useState(50); // percentage
@@ -126,14 +128,18 @@ const SpaceCollector: React.FC = () => {
             let newStats = { ...currentStats };
             
             if (item.type === 'coin') {
-              newStats.score += 10;
+              const coinValue = adminCheats.infiniteMoney ? 100 : 10;
+              newStats.score += coinValue;
               newStats.coinsCollected += 1;
               if (soundEnabled) soundSystem.playCoinCollect();
             } else if (item.type === 'gem') {
-              newStats.score += 50;
+              const gemValue = adminCheats.infiniteMoney ? 500 : 50;
+              newStats.score += gemValue;
               if (soundEnabled) soundSystem.playGemCollect();
             } else if (item.type === 'bomb') {
-              newStats.lives -= 1;
+              if (!adminCheats.godMode) {
+                newStats.lives -= 1;
+              }
               if (soundEnabled) soundSystem.playBombHit();
             }
 

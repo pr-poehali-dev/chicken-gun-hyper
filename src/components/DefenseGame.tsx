@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
+import { useAdmin } from '@/contexts/AdminContext';
 
 interface Upgrade {
   id: string;
@@ -22,6 +23,7 @@ interface Enemy {
 }
 
 export default function DefenseGame() {
+  const { adminCheats } = useAdmin();
   const [coins, setCoins] = useState(100);
   const [defense, setDefense] = useState(10);
   const [health, setHealth] = useState(100);
@@ -105,9 +107,11 @@ export default function DefenseGame() {
   // Покупка улучшения
   const buyUpgrade = (upgradeId: string) => {
     const upgrade = upgrades.find(u => u.id === upgradeId);
-    if (!upgrade || upgrade.level >= upgrade.maxLevel || coins < upgrade.cost) return;
+    if (!upgrade || upgrade.level >= upgrade.maxLevel || (!adminCheats.infiniteMoney && coins < upgrade.cost)) return;
 
-    setCoins(prev => prev - upgrade.cost);
+    if (!adminCheats.infiniteMoney) {
+      setCoins(prev => prev - upgrade.cost);
+    }
     
     setUpgrades(prev => prev.map(u => {
       if (u.id === upgradeId) {
@@ -172,17 +176,21 @@ export default function DefenseGame() {
     setCurrentEnemy(prev => prev ? { ...prev, health: newEnemyHealth } : null);
     
     setTimeout(() => {
-      const actualDamage = Math.max(1, currentEnemy.damage - defense);
-      setHealth(prev => {
-        const newHealth = prev - actualDamage;
-        setBattleLog(prevLog => [...prevLog, `💥 ${currentEnemy.name} наносит ${actualDamage} урона!`].slice(-4));
-        
-        if (newHealth <= 0) {
-          setTimeout(() => setGameState('gameover'), 1000);
-        }
-        
-        return Math.max(0, newHealth);
-      });
+      if (!adminCheats.godMode) {
+        const actualDamage = Math.max(1, currentEnemy.damage - defense);
+        setHealth(prev => {
+          const newHealth = prev - actualDamage;
+          setBattleLog(prevLog => [...prevLog, `💥 ${currentEnemy.name} наносит ${actualDamage} урона!`].slice(-4));
+          
+          if (newHealth <= 0) {
+            setTimeout(() => setGameState('gameover'), 1000);
+          }
+          
+          return Math.max(0, newHealth);
+        });
+      } else {
+        setBattleLog(prevLog => [...prevLog, `🛡️ Урон заблокирован админом!`].slice(-4));
+      }
     }, 1000);
   }, [currentEnemy, defense, wave, maxHealth, upgrades]);
 
