@@ -88,7 +88,13 @@ const ChickenClicker: React.FC = () => {
     const x = ((event.clientX - rect.left) / rect.width) * 100;
     const y = ((event.clientY - rect.top) / rect.height) * 100;
 
-    const clickValue = adminCheats.infiniteMoney ? eggPerClick * 1000 : eggPerClick;
+    // Применяем различные читы
+    let clickValue = eggPerClick;
+    
+    if (adminCheats.infiniteMoney) clickValue *= 1000;
+    if (adminCheats.megaMultiplier) clickValue *= 50;
+    if (adminCheats.goldenEggs && Math.random() < 0.3) clickValue *= 10; // 30% шанс золотого яйца
+    
     setEggs(prev => prev + clickValue);
     setTotalEggs(prev => prev + clickValue);
     setClickAnimation(true);
@@ -96,7 +102,7 @@ const ChickenClicker: React.FC = () => {
     // Add floating text
     const newText = {
       id: Date.now(),
-      value: eggPerClick,
+      value: clickValue,
       x,
       y
     };
@@ -112,13 +118,28 @@ const ChickenClicker: React.FC = () => {
     }
 
     setTimeout(() => setClickAnimation(false), 150);
-  }, [eggPerClick, soundEnabled]);
+  }, [eggPerClick, soundEnabled, adminCheats]);
+
+  // Автоклик
+  useEffect(() => {
+    if (adminCheats.autoClicker) {
+      const interval = setInterval(() => {
+        let autoClickValue = eggPerClick * 5; // Автокликер в 5 раз слабее обычного клика
+        if (adminCheats.megaMultiplier) autoClickValue *= 10;
+        
+        setEggs(prev => prev + autoClickValue);
+        setTotalEggs(prev => prev + autoClickValue);
+      }, 100); // 10 кликов в секунду
+      
+      return () => clearInterval(interval);
+    }
+  }, [adminCheats.autoClicker, eggPerClick, adminCheats.megaMultiplier]);
 
   const buyUpgrade = useCallback((upgradeId: string) => {
     const upgrade = upgrades.find(u => u.id === upgradeId);
     if (!upgrade || (!adminCheats.infiniteMoney && eggs < upgrade.cost)) return;
 
-    if (!adminCheats.infiniteMoney) {
+    if (!adminCheats.infiniteMoney && !adminCheats.instantUpgrades) {
       setEggs(prev => prev - upgrade.cost);
     }
     setUpgrades(prev => prev.map(u => {

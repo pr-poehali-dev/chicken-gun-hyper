@@ -107,9 +107,9 @@ export default function DefenseGame() {
   // Покупка улучшения
   const buyUpgrade = (upgradeId: string) => {
     const upgrade = upgrades.find(u => u.id === upgradeId);
-    if (!upgrade || upgrade.level >= upgrade.maxLevel || (!adminCheats.infiniteMoney && coins < upgrade.cost)) return;
+    if (!upgrade || upgrade.level >= upgrade.maxLevel || (!adminCheats.infiniteMoney && !adminCheats.infiniteAmmo && coins < upgrade.cost)) return;
 
-    if (!adminCheats.infiniteMoney) {
+    if (!adminCheats.infiniteMoney && !adminCheats.infiniteAmmo) {
       setCoins(prev => prev - upgrade.cost);
     }
     
@@ -139,8 +139,11 @@ export default function DefenseGame() {
   const battle = useCallback(() => {
     if (!currentEnemy) return;
 
-    // Урон по врагу (фиксированный урон игрока)
-    const playerDamage = 15 + Math.floor(wave / 2);
+    // Урон по врагу с читами
+    let playerDamage = 15 + Math.floor(wave / 2);
+    if (adminCheats.rapidFire) playerDamage *= 3; // Тройной урон
+    if (adminCheats.wallPenetration) playerDamage *= 2; // Двойной урон за пробивание брони
+    
     const newEnemyHealth = currentEnemy.health - playerDamage;
     
     setBattleLog(prev => [...prev, `🗡️ Ты наносишь ${playerDamage} урона!`].slice(-4));
@@ -176,8 +179,12 @@ export default function DefenseGame() {
     setCurrentEnemy(prev => prev ? { ...prev, health: newEnemyHealth } : null);
     
     setTimeout(() => {
-      if (!adminCheats.godMode) {
-        const actualDamage = Math.max(1, currentEnemy.damage - defense);
+      if (!adminCheats.godMode && !adminCheats.enemyFreeze) {
+        let actualDamage = Math.max(1, currentEnemy.damage - defense);
+        
+        // Читы влияющие на урон по игроку
+        if (adminCheats.wallPenetration) actualDamage = Math.floor(actualDamage / 2); // Половина урона
+        
         setHealth(prev => {
           const newHealth = prev - actualDamage;
           setBattleLog(prevLog => [...prevLog, `💥 ${currentEnemy.name} наносит ${actualDamage} урона!`].slice(-4));
@@ -188,10 +195,12 @@ export default function DefenseGame() {
           
           return Math.max(0, newHealth);
         });
+      } else if (adminCheats.enemyFreeze) {
+        setBattleLog(prevLog => [...prevLog, `🧊 Враг заморожен!`].slice(-4));
       } else {
         setBattleLog(prevLog => [...prevLog, `🛡️ Урон заблокирован админом!`].slice(-4));
       }
-    }, 1000);
+    }, adminCheats.rapidFire ? 200 : 1000); // Быстрые атаки
   }, [currentEnemy, defense, wave, maxHealth, upgrades]);
 
   // Начать новую волну

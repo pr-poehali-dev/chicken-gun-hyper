@@ -71,18 +71,21 @@ export default function WalkingGame() {
       let newX = prev.x;
       let newY = prev.y;
 
+      // Применяем читы на движение
+      const jumpDistance = adminCheats.jumpBoost ? 2 : 1;
+      
       switch (direction) {
         case 'up':
-          newY = Math.max(0, prev.y - 1);
+          newY = adminCheats.wallHack ? 0 : Math.max(0, prev.y - jumpDistance);
           break;
         case 'down':
-          newY = Math.min(GRID_SIZE - 1, prev.y + 1);
+          newY = adminCheats.wallHack ? GRID_SIZE - 1 : Math.min(GRID_SIZE - 1, prev.y + jumpDistance);
           break;
         case 'left':
-          newX = Math.max(0, prev.x - 1);
+          newX = adminCheats.wallHack ? 0 : Math.max(0, prev.x - jumpDistance);
           break;
         case 'right':
-          newX = Math.min(GRID_SIZE - 1, prev.x + 1);
+          newX = adminCheats.wallHack ? GRID_SIZE - 1 : Math.min(GRID_SIZE - 1, prev.x + jumpDistance);
           break;
       }
 
@@ -93,15 +96,19 @@ export default function WalkingGame() {
         
         switch (collectedItem.type) {
           case 'coin':
-            const coinValue = adminCheats.infiniteMoney ? 100 : 10;
+            let coinValue = 10;
+            if (adminCheats.infiniteMoney) coinValue *= 10;
+            if (adminCheats.itemMagnet) coinValue *= 2; // Бонус за магнит предметов
             setScore(prev => prev + coinValue);
             break;
           case 'gem':
-            const gemValue = adminCheats.infiniteMoney ? 500 : 50;
+            let gemValue = 50;
+            if (adminCheats.infiniteMoney) gemValue *= 10;
+            if (adminCheats.itemMagnet) gemValue *= 2;
             setScore(prev => prev + gemValue);
             break;
           case 'heart':
-            const healthValue = adminCheats.godMode ? 100 : 20;
+            const healthValue = (adminCheats.godMode || adminCheats.healthRegen) ? 100 : 20;
             setHealth(prev => Math.min(100, prev + healthValue));
             break;
         }
@@ -153,7 +160,7 @@ export default function WalkingGame() {
     if (!gameStarted) return;
 
     const healthTimer = setInterval(() => {
-      if (!adminCheats.godMode) {
+      if (!adminCheats.godMode && !adminCheats.healthRegen) {
         setHealth(prev => {
           const newHealth = prev - 1;
           if (newHealth <= 0) {
@@ -162,6 +169,9 @@ export default function WalkingGame() {
           }
           return newHealth;
         });
+      } else if (adminCheats.healthRegen) {
+        // Автоматическая регенерация здоровья
+        setHealth(prev => Math.min(100, prev + 2));
       }
     }, 2000);
 

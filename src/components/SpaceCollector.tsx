@@ -99,9 +99,11 @@ const SpaceCollector: React.FC = () => {
 
     // Update items
     setItems(prev => {
+      // Slowmotion cheat
+      const speedMultiplier = adminCheats.slowMotion ? 0.3 : 1;
       const updated = prev.map(item => ({
         ...item,
-        y: item.y + item.speed
+        y: item.y + (item.speed * speedMultiplier)
       })).filter(item => item.y < 110);
 
       // Check collisions
@@ -111,10 +113,20 @@ const SpaceCollector: React.FC = () => {
       const playerBottom = 95;
 
       updated.forEach(item => {
-        const itemLeft = item.x;
-        const itemRight = item.x + 8;
-        const itemTop = item.y;
-        const itemBottom = item.y + 8;
+        let itemLeft = item.x;
+        let itemRight = item.x + 8;
+        let itemTop = item.y;
+        let itemBottom = item.y + 8;
+
+        // Магнитное поле - притягивает предметы к игроку
+        if (adminCheats.magneticField && (item.type === 'coin' || item.type === 'gem')) {
+          const distance = Math.abs(playerX + 5 - (item.x + 4));
+          if (distance < 20) {
+            // Притягиваем к игроку
+            itemLeft = playerX + 2;
+            itemRight = playerX + 6;
+          }
+        }
 
         // Check collision
         if (
@@ -128,16 +140,24 @@ const SpaceCollector: React.FC = () => {
             let newStats = { ...currentStats };
             
             if (item.type === 'coin') {
-              const coinValue = adminCheats.infiniteMoney ? 100 : 10;
+              let coinValue = 10;
+              if (adminCheats.infiniteMoney) coinValue *= 10;
+              if (adminCheats.scoreMultiplier) coinValue *= 5;
+              if (adminCheats.magneticField) coinValue *= 2; // Бонус за магнитное поле
+              
               newStats.score += coinValue;
               newStats.coinsCollected += 1;
               if (soundEnabled) soundSystem.playCoinCollect();
             } else if (item.type === 'gem') {
-              const gemValue = adminCheats.infiniteMoney ? 500 : 50;
+              let gemValue = 50;
+              if (adminCheats.infiniteMoney) gemValue *= 10;
+              if (adminCheats.scoreMultiplier) gemValue *= 5;
+              if (adminCheats.magneticField) gemValue *= 2;
+              
               newStats.score += gemValue;
               if (soundEnabled) soundSystem.playGemCollect();
             } else if (item.type === 'bomb') {
-              if (!adminCheats.godMode) {
+              if (!adminCheats.godMode && !adminCheats.shieldGenerator) {
                 newStats.lives -= 1;
               }
               if (soundEnabled) soundSystem.playBombHit();
