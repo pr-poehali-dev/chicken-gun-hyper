@@ -43,6 +43,12 @@ const AdminPanel: React.FC = () => {
       teleport: true,
       timeFreeze: true,
       xrayVision: true,
+      invisibility: true,
+      infiniteTime: true,
+      noClip: true,
+      superJump: true,
+      flyMode: true,
+      oneHitKill: true,
       megaMultiplier: true,
       autoClicker: true,
       instantUpgrades: true,
@@ -71,6 +77,12 @@ const AdminPanel: React.FC = () => {
       teleport: false,
       timeFreeze: false,
       xrayVision: false,
+      invisibility: false,
+      infiniteTime: false,
+      noClip: false,
+      superJump: false,
+      flyMode: false,
+      oneHitKill: false,
       megaMultiplier: false,
       autoClicker: false,
       instantUpgrades: false,
@@ -238,6 +250,72 @@ const AdminPanel: React.FC = () => {
                 }`}
               >
                 👁️ Рентген
+              </button>
+              
+              <button
+                onClick={() => toggleCheat('invisibility')}
+                className={`p-1.5 rounded text-xs font-semibold transition-all ${
+                  adminCheats.invisibility
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                👤 Невидимость
+              </button>
+              
+              <button
+                onClick={() => toggleCheat('infiniteTime')}
+                className={`p-1.5 rounded text-xs font-semibold transition-all ${
+                  adminCheats.infiniteTime
+                    ? 'bg-amber-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                ⏰ ∞ Время
+              </button>
+              
+              <button
+                onClick={() => toggleCheat('noClip')}
+                className={`p-1.5 rounded text-xs font-semibold transition-all ${
+                  adminCheats.noClip
+                    ? 'bg-violet-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                🌫️ NoClip
+              </button>
+              
+              <button
+                onClick={() => toggleCheat('superJump')}
+                className={`p-1.5 rounded text-xs font-semibold transition-all ${
+                  adminCheats.superJump
+                    ? 'bg-lime-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                🦘 Супер-прыжок
+              </button>
+              
+              <button
+                onClick={() => toggleCheat('flyMode')}
+                className={`p-1.5 rounded text-xs font-semibold transition-all ${
+                  adminCheats.flyMode
+                    ? 'bg-sky-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                🕊️ Полет
+              </button>
+              
+              <button
+                onClick={() => toggleCheat('oneHitKill')}
+                className={`p-1.5 rounded text-xs font-semibold transition-all ${
+                  adminCheats.oneHitKill
+                    ? 'bg-rose-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                💀 1 удар
               </button>
             </div>
           </div>
@@ -462,7 +540,7 @@ const AdminPanel: React.FC = () => {
             
             {/* Индикатор активных читов */}
             <div className="text-xs text-gray-400 text-center bg-gray-800 rounded p-2">
-              Активно читов: <span className="text-orange-400 font-semibold">{activeCheatsCount}</span> из 23
+              Активно читов: <span className="text-orange-400 font-semibold">{activeCheatsCount}</span> из 29
             </div>
           </div>
         </div>

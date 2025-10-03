@@ -12,6 +12,12 @@ interface AdminContextType {
     teleport: boolean;
     timeFreeze: boolean;
     xrayVision: boolean;
+    invisibility: boolean;
+    infiniteTime: boolean;
+    noClip: boolean;
+    superJump: boolean;
+    flyMode: boolean;
+    oneHitKill: boolean;
     
     // ChickenClicker читы
     megaMultiplier: boolean;
@@ -45,6 +51,12 @@ interface AdminContextType {
     teleport: boolean;
     timeFreeze: boolean;
     xrayVision: boolean;
+    invisibility: boolean;
+    infiniteTime: boolean;
+    noClip: boolean;
+    superJump: boolean;
+    flyMode: boolean;
+    oneHitKill: boolean;
     megaMultiplier: boolean;
     autoClicker: boolean;
     instantUpgrades: boolean;
@@ -77,6 +89,12 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     teleport: false,
     timeFreeze: false,
     xrayVision: false,
+    invisibility: false,
+    infiniteTime: false,
+    noClip: false,
+    superJump: false,
+    flyMode: false,
+    oneHitKill: false,
     
     // ChickenClicker читы
     megaMultiplier: false,
