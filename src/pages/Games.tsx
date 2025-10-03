@@ -8,7 +8,11 @@ import RacingGame from '@/components/RacingGame';
 import PuzzleGame from '@/components/PuzzleGame';
 import RPGGame from '@/components/RPGGame';
 import LiveChat from '@/components/LiveChat';
-import MiniGame from '@/components/MiniGame';
+import SnakeGame from '@/components/SnakeGame';
+import TetrisGame from '@/components/TetrisGame';
+import FlappyBirdGame from '@/components/FlappyBirdGame';
+import Game2048 from '@/components/Game2048';
+import MemoryGame from '@/components/MemoryGame';
 import AdminPanel from '@/components/AdminPanel';
 import { AdminProvider } from '@/contexts/AdminContext';
 import Icon from '@/components/ui/icon';
@@ -37,17 +41,13 @@ const games: GameInfo[] = [
   { id: 'rpg', title: 'RPG Приключение', description: 'Сражайся с врагами!', emoji: '🗡️', component: RPGGame, category: 'rpg', featured: true },
   { id: 'chat', title: 'Живой Чат', description: 'Общайся онлайн!', emoji: '💬', component: LiveChat, category: 'social', featured: true },
   
-  { id: 'snake', title: 'Змейка', description: 'Классическая змейка!', emoji: '🐍', category: 'arcade', color: 'green', gameType: 'collect' },
-  { id: 'tetris', title: 'Тетрис', description: 'Собирай линии!', emoji: '🧱', category: 'puzzle', color: 'blue', gameType: 'platformer' },
-  { id: 'pong', title: 'Понг', description: 'Теннис для двоих!', emoji: '🏓', category: 'arcade', color: 'cyan', gameType: 'reaction' },
-  { id: 'flappy', title: 'Летун', description: 'Летай между труб!', emoji: '🐦', category: 'arcade', color: 'yellow', gameType: 'dodge' },
-  { id: 'breakout', title: 'Арканоид', description: 'Разбивай кирпичи!', emoji: '🧱', category: 'arcade', color: 'orange', gameType: 'reaction' },
+  { id: 'snake', title: 'Змейка', description: 'Классическая змейка!', emoji: '🐍', component: SnakeGame, category: 'arcade', featured: true },
+  { id: 'tetris', title: 'Тетрис', description: 'Собирай линии!', emoji: '🧱', component: TetrisGame, category: 'puzzle', featured: true },
+  { id: 'flappy', title: 'Flappy Bird', description: 'Летай между труб!', emoji: '🐦', component: FlappyBirdGame, category: 'arcade', featured: true },
+  { id: '2048', title: '2048', description: 'Собери плитку 2048!', emoji: '🎯', component: Game2048, category: 'puzzle', featured: true },
+  { id: 'memory', title: 'Память', description: 'Найди пары карт!', emoji: '🎴', component: MemoryGame, category: 'memory', featured: true },
   
-  { id: 'match3', title: 'Три в ряд', description: 'Собирай комбинации!', emoji: '💎', category: 'puzzle', color: 'purple', gameType: 'memory' },
-  { id: 'sudoku', title: 'Судоку', description: 'Числовая головоломка!', emoji: '🔢', category: 'puzzle', color: 'indigo', gameType: 'memory' },
-  { id: 'chess', title: 'Шахматы', description: 'Классика стратегии!', emoji: '♟️', category: 'strategy', color: 'gray', gameType: 'memory' },
-  { id: 'checkers', title: 'Шашки', description: 'Простая стратегия!', emoji: '⚫', category: 'strategy', color: 'red', gameType: 'memory' },
-  { id: 'tic', title: 'Крестики-нолики', description: 'Для двоих!', emoji: '❌', category: 'strategy', color: 'pink', gameType: 'memory' },
+
   
   { id: 'tower', title: 'Защита башни', description: 'Останови врагов!', emoji: '🏰', category: 'strategy', color: 'stone', gameType: 'clicker' },
   { id: 'cards', title: 'Пасьянс', description: 'Раскладывай карты!', emoji: '🃏', category: 'puzzle', color: 'red', gameType: 'memory' },
@@ -61,7 +61,7 @@ const games: GameInfo[] = [
   { id: 'run', title: 'Бесконечный бег', description: 'Беги без остановки!', emoji: '🏃', category: 'arcade', color: 'blue', gameType: 'dodge' },
   { id: 'fly', title: 'Вертолет', description: 'Пролети через туннель!', emoji: '🚁', category: 'arcade', color: 'sky', gameType: 'dodge' },
   
-  { id: 'memory', title: 'Мемори', description: 'Найди пары!', emoji: '🎴', category: 'memory', color: 'purple', gameType: 'memory' },
+
   { id: 'word', title: 'Словарь', description: 'Собирай слова!', emoji: '📝', category: 'puzzle', color: 'blue', gameType: 'memory' },
   { id: 'math', title: 'Математика', description: 'Реши примеры!', emoji: '🔢', category: 'educational', color: 'green', gameType: 'memory' },
   { id: 'typing', title: 'Печатание', description: 'Научись печатать!', emoji: '⌨️', category: 'educational', color: 'gray', gameType: 'reaction' },
@@ -149,13 +149,13 @@ export default function Games() {
 
           <div className="text-center mb-8">
             <h1 className="font-orbitron text-4xl md:text-5xl text-retro-orange mb-4">
-              🎮 60 Игр!
+              🎮 Игровая Аркада
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Огромная коллекция игр на любой вкус! 🚀
+              Коллекция классических и современных игр! 🚀
             </p>
             <p className="text-sm text-retro-orange/70 mt-2">
-              Все игры созданы @war_references с любовью! ❤️
+              13 полноценных игр + 46 мини-игр созданы @war_references с любовью! ❤️
             </p>
           </div>
 
