@@ -4,11 +4,14 @@ import SpaceCollector from '@/components/SpaceCollector';
 import ChickenClicker from '@/components/ChickenClicker';
 import WalkingGame from '@/components/WalkingGame';
 import DefenseGame from '@/components/DefenseGame';
+import RacingGame from '@/components/RacingGame';
+import PuzzleGame from '@/components/PuzzleGame';
+import RPGGame from '@/components/RPGGame';
 import LiveChat from '@/components/LiveChat';
 import AdminPanel from '@/components/AdminPanel';
 import { AdminProvider } from '@/contexts/AdminContext';
 
-type GameType = 'space' | 'chicken' | 'walking' | 'defense' | 'chat';
+type GameType = 'space' | 'chicken' | 'walking' | 'defense' | 'racing' | 'puzzle' | 'rpg' | 'chat';
 
 interface GameInfo {
   id: GameType;
@@ -16,7 +19,7 @@ interface GameInfo {
   description: string;
   emoji: string;
   component: React.ComponentType;
-  category: 'arcade' | 'strategy' | 'social';
+  category: 'arcade' | 'strategy' | 'social' | 'racing' | 'puzzle' | 'rpg';
 }
 
 const games: GameInfo[] = [
@@ -53,6 +56,30 @@ const games: GameInfo[] = [
     category: 'strategy'
   },
   {
+    id: 'racing',
+    title: 'Супер Гонки',
+    description: 'Уворачивайся от препятствий на трассе, используй нитро!',
+    emoji: '🏎️',
+    component: RacingGame,
+    category: 'racing'
+  },
+  {
+    id: 'puzzle',
+    title: 'Пятнашки',
+    description: 'Решай классическую головоломку - расставь числа по порядку!',
+    emoji: '🧩',
+    component: PuzzleGame,
+    category: 'puzzle'
+  },
+  {
+    id: 'rpg',
+    title: 'RPG Приключение',
+    description: 'Сражайся с врагами, прокачивай героя, собирай золото!',
+    emoji: '🗡️',
+    component: RPGGame,
+    category: 'rpg'
+  },
+  {
     id: 'chat',
     title: 'Живой Чат',
     description: 'Общайся с другими игроками в реальном времени!',
@@ -64,7 +91,7 @@ const games: GameInfo[] = [
 
 export default function Games() {
   const [selectedGame, setSelectedGame] = useState<GameType | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<'all' | 'arcade' | 'strategy' | 'social'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'arcade' | 'strategy' | 'social' | 'racing' | 'puzzle' | 'rpg'>('all');
 
   const filteredGames = selectedCategory === 'all' 
     ? games 
@@ -76,6 +103,9 @@ export default function Games() {
     switch (category) {
       case 'arcade': return '🎮 Аркады';
       case 'strategy': return '🧠 Стратегии';
+      case 'racing': return '🏎️ Гонки';
+      case 'puzzle': return '🧩 Головоломки';
+      case 'rpg': return '🗡️ RPG';
       case 'social': return '👥 Социальные';
       default: return '🎯 Все игры';
     }
@@ -110,12 +140,12 @@ export default function Games() {
         </div>
 
         {/* Фильтры категорий */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
-          {(['all', 'arcade', 'strategy', 'social'] as const).map(category => (
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          {(['all', 'arcade', 'strategy', 'racing', 'puzzle', 'rpg', 'social'] as const).map(category => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
+              className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-sm ${
                 selectedCategory === category
                   ? 'bg-retro-orange text-white shadow-lg scale-105'
                   : 'bg-pixel-dark/50 text-retro-orange hover:bg-retro-orange/20 border border-retro-orange/30'

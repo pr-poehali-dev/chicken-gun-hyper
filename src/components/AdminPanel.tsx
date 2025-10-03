@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { useAdmin } from '@/contexts/AdminContext';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const AdminPanel: React.FC = () => {
   const { isAdmin, setIsAdmin, adminCheats, setAdminCheats } = useAdmin();
@@ -35,74 +36,36 @@ const AdminPanel: React.FC = () => {
   };
 
   const enableAllCheats = () => {
-    setAdminCheats({
-      infiniteMoney: true,
-      godMode: true,
-      speedBoost: true,
-      autoWin: true,
-      teleport: true,
-      timeFreeze: true,
-      xrayVision: true,
-      invisibility: true,
-      infiniteTime: true,
-      noClip: true,
-      superJump: true,
-      flyMode: true,
-      oneHitKill: true,
-      megaMultiplier: true,
-      autoClicker: true,
-      instantUpgrades: true,
-      goldenEggs: true,
-      magneticField: true,
-      slowMotion: true,
-      shieldGenerator: true,
-      scoreMultiplier: true,
-      jumpBoost: true,
-      wallHack: true,
-      itemMagnet: true,
-      healthRegen: true,
-      infiniteAmmo: true,
-      rapidFire: true,
-      wallPenetration: true,
-      enemyFreeze: true
-    });
+    const allCheats = Object.keys(adminCheats).reduce((acc, key) => {
+      acc[key as keyof typeof adminCheats] = true;
+      return acc;
+    }, {} as typeof adminCheats);
+    setAdminCheats(allCheats);
   };
 
   const disableAllCheats = () => {
-    setAdminCheats({
-      infiniteMoney: false,
-      godMode: false,
-      speedBoost: false,
-      autoWin: false,
-      teleport: false,
-      timeFreeze: false,
-      xrayVision: false,
-      invisibility: false,
-      infiniteTime: false,
-      noClip: false,
-      superJump: false,
-      flyMode: false,
-      oneHitKill: false,
-      megaMultiplier: false,
-      autoClicker: false,
-      instantUpgrades: false,
-      goldenEggs: false,
-      magneticField: false,
-      slowMotion: false,
-      shieldGenerator: false,
-      scoreMultiplier: false,
-      jumpBoost: false,
-      wallHack: false,
-      itemMagnet: false,
-      healthRegen: false,
-      infiniteAmmo: false,
-      rapidFire: false,
-      wallPenetration: false,
-      enemyFreeze: false
-    });
+    const allCheats = Object.keys(adminCheats).reduce((acc, key) => {
+      acc[key as keyof typeof adminCheats] = false;
+      return acc;
+    }, {} as typeof adminCheats);
+    setAdminCheats(allCheats);
   };
 
   const activeCheatsCount = Object.values(adminCheats).filter(Boolean).length;
+  const totalCheatsCount = Object.keys(adminCheats).length;
+
+  const CheatButton = ({ name, label, emoji, color = 'gray' }: { name: keyof typeof adminCheats; label: string; emoji: string; color?: string }) => (
+    <button
+      onClick={() => toggleCheat(name)}
+      className={`p-1.5 rounded text-xs font-semibold transition-all ${
+        adminCheats[name]
+          ? `bg-${color}-600 text-white`
+          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+      }`}
+    >
+      {emoji} {label}
+    </button>
+  );
 
   if (!isAdmin) {
     return (
@@ -116,7 +79,7 @@ const AdminPanel: React.FC = () => {
           <DialogHeader>
             <DialogTitle className="text-center text-orange-400">🐧 Админ-панель</DialogTitle>
             <DialogDescription className="text-center text-gray-400">
-              Введите пароль для доступа к административным функциям
+              Введите пароль для доступа к {totalCheatsCount} читам
             </DialogDescription>
           </DialogHeader>
           
@@ -154,9 +117,8 @@ const AdminPanel: React.FC = () => {
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      <Card className="w-96 bg-gray-900/95 border-orange-500/50 backdrop-blur-sm max-h-[80vh] overflow-y-auto">
-        <div className="p-4 space-y-3">
-          {/* Заголовок */}
+      <Card className="w-[450px] bg-gray-900/95 border-orange-500/50 backdrop-blur-sm max-h-[85vh] overflow-hidden flex flex-col">
+        <div className="p-3 border-b border-gray-700">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-orange-400 flex items-center gap-2">
               🐧 Админ-панель
@@ -169,381 +131,207 @@ const AdminPanel: React.FC = () => {
               <Icon name="LogOut" size={18} />
             </button>
           </div>
-
-          {/* Универсальные читы */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-semibold text-orange-300">🎮 Универсальные читы:</h4>
+          
+          <div className="flex gap-2 mt-2">
+            <button
+              onClick={enableAllCheats}
+              className="flex-1 px-2 py-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded transition-colors"
+            >
+              ✅ Все {totalCheatsCount}
+            </button>
             
-            <div className="grid grid-cols-2 gap-1">
-              <button
-                onClick={() => toggleCheat('infiniteMoney')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.infiniteMoney
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                💰 Деньги
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('godMode')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.godMode
-                    ? 'bg-yellow-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🛡️ Бессмертие
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('speedBoost')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.speedBoost
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                ⚡ Скорость
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('autoWin')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.autoWin
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🏆 Победа
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('teleport')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.teleport
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🌀 Телепорт
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('timeFreeze')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.timeFreeze
-                    ? 'bg-cyan-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                ⏸️ Пауза
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('xrayVision')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.xrayVision
-                    ? 'bg-pink-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                👁️ Рентген
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('invisibility')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.invisibility
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                👤 Невидимость
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('infiniteTime')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.infiniteTime
-                    ? 'bg-amber-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                ⏰ ∞ Время
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('noClip')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.noClip
-                    ? 'bg-violet-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🌫️ NoClip
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('superJump')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.superJump
-                    ? 'bg-lime-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🦘 Супер-прыжок
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('flyMode')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.flyMode
-                    ? 'bg-sky-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🕊️ Полет
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('oneHitKill')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.oneHitKill
-                    ? 'bg-rose-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                💀 1 удар
-              </button>
-            </div>
+            <button
+              onClick={disableAllCheats}
+              className="flex-1 px-2 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded transition-colors"
+            >
+              ❌ Сбросить
+            </button>
           </div>
-
-          {/* ChickenClicker читы */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-semibold text-yellow-300">🐔 ChickenClicker:</h4>
-            <div className="grid grid-cols-2 gap-1">
-              <button
-                onClick={() => toggleCheat('megaMultiplier')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.megaMultiplier
-                    ? 'bg-yellow-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🚀 x50
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('autoClicker')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.autoClicker
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🤖 Автоклик
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('instantUpgrades')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.instantUpgrades
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                ⚡ Улучшения
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('goldenEggs')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.goldenEggs
-                    ? 'bg-yellow-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🥚 Золото
-              </button>
-            </div>
-          </div>
-
-          {/* SpaceCollector читы */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-semibold text-blue-300">🚀 SpaceCollector:</h4>
-            <div className="grid grid-cols-2 gap-1">
-              <button
-                onClick={() => toggleCheat('magneticField')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.magneticField
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🧲 Магнит
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('slowMotion')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.slowMotion
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🐌 Замедление
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('shieldGenerator')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.shieldGenerator
-                    ? 'bg-cyan-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🛡️ Щит
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('scoreMultiplier')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.scoreMultiplier
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                📈 x5 Очки
-              </button>
-            </div>
-          </div>
-
-          {/* WalkingGame читы */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-semibold text-green-300">🚶 WalkingGame:</h4>
-            <div className="grid grid-cols-2 gap-1">
-              <button
-                onClick={() => toggleCheat('jumpBoost')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.jumpBoost
-                    ? 'bg-green-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🦘 Прыжки
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('wallHack')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.wallHack
-                    ? 'bg-red-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                👻 Нет стен
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('itemMagnet')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.itemMagnet
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🧲 Предметы
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('healthRegen')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.healthRegen
-                    ? 'bg-pink-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                💚 Регенерация
-              </button>
-            </div>
-          </div>
-
-          {/* DefenseGame читы */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-semibold text-red-300">⚔️ DefenseGame:</h4>
-            <div className="grid grid-cols-2 gap-1">
-              <button
-                onClick={() => toggleCheat('infiniteAmmo')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.infiniteAmmo
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                ∞ Патроны
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('rapidFire')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.rapidFire
-                    ? 'bg-red-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🔥 x3 Урон
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('wallPenetration')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.wallPenetration
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🎯 Пробивание
-              </button>
-              
-              <button
-                onClick={() => toggleCheat('enemyFreeze')}
-                className={`p-1.5 rounded text-xs font-semibold transition-all ${
-                  adminCheats.enemyFreeze
-                    ? 'bg-cyan-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-              >
-                🧊 Заморозка
-              </button>
-            </div>
-          </div>
-
-          {/* Быстрые действия */}
-          <div className="space-y-2">
-            <div className="flex gap-1">
-              <button
-                onClick={enableAllCheats}
-                className="flex-1 px-2 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded transition-colors"
-              >
-                ✅ Все
-              </button>
-              
-              <button
-                onClick={disableAllCheats}
-                className="flex-1 px-2 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded transition-colors"
-              >
-                ❌ Сбросить
-              </button>
-            </div>
-            
-            {/* Индикатор активных читов */}
-            <div className="text-xs text-gray-400 text-center bg-gray-800 rounded p-2">
-              Активно читов: <span className="text-orange-400 font-semibold">{activeCheatsCount}</span> из 29
-            </div>
+          
+          <div className="text-xs text-gray-400 text-center bg-gray-800 rounded p-1.5 mt-2">
+            Активно: <span className="text-orange-400 font-semibold">{activeCheatsCount}</span> / {totalCheatsCount}
           </div>
         </div>
+
+        <Tabs defaultValue="universal" className="flex-1 overflow-hidden flex flex-col">
+          <TabsList className="w-full grid grid-cols-5 bg-gray-800 p-1">
+            <TabsTrigger value="universal" className="text-xs">🌟 Общие</TabsTrigger>
+            <TabsTrigger value="games" className="text-xs">🎮 Игры</TabsTrigger>
+            <TabsTrigger value="combat" className="text-xs">⚔️ Бой</TabsTrigger>
+            <TabsTrigger value="physics" className="text-xs">🌀 Физика</TabsTrigger>
+            <TabsTrigger value="fun" className="text-xs">🎪 Веселье</TabsTrigger>
+          </TabsList>
+
+          <div className="flex-1 overflow-y-auto p-3">
+            <TabsContent value="universal" className="space-y-3 mt-0">
+              <div className="grid grid-cols-3 gap-1">
+                <CheatButton name="infiniteMoney" label="Деньги" emoji="💰" color="green" />
+                <CheatButton name="godMode" label="Бог" emoji="🛡️" color="yellow" />
+                <CheatButton name="speedBoost" label="Скорость" emoji="⚡" color="blue" />
+                <CheatButton name="autoWin" label="Победа" emoji="🏆" color="purple" />
+                <CheatButton name="teleport" label="Телепорт" emoji="🌀" color="purple" />
+                <CheatButton name="timeFreeze" label="Стоп" emoji="⏸️" color="cyan" />
+                <CheatButton name="xrayVision" label="Рентген" emoji="👁️" color="pink" />
+                <CheatButton name="invisibility" label="Невид" emoji="👤" color="indigo" />
+                <CheatButton name="infiniteTime" label="∞ Время" emoji="⏰" color="amber" />
+                <CheatButton name="noClip" label="NoClip" emoji="🌫️" color="violet" />
+                <CheatButton name="superJump" label="Прыжок" emoji="🦘" color="lime" />
+                <CheatButton name="flyMode" label="Полет" emoji="🕊️" color="sky" />
+                <CheatButton name="oneHitKill" label="1 удар" emoji="💀" color="rose" />
+                <CheatButton name="doubleXP" label="x2 XP" emoji="⭐" color="yellow" />
+                <CheatButton name="tripleScore" label="x3 Очки" emoji="📊" color="green" />
+                <CheatButton name="unlockAll" label="Открыть" emoji="🔓" color="orange" />
+                <CheatButton name="infiniteHealth" label="∞ HP" emoji="❤️" color="red" />
+                <CheatButton name="infiniteEnergy" label="∞ Энергия" emoji="⚡" color="yellow" />
+                <CheatButton name="maxStats" label="Макс стат" emoji="📈" color="green" />
+                <CheatButton name="instantCooldown" label="Без КД" emoji="🔄" color="blue" />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="games" className="space-y-3 mt-0">
+              <div>
+                <h4 className="text-xs font-semibold text-yellow-300 mb-1">🐔 ChickenClicker</h4>
+                <div className="grid grid-cols-3 gap-1">
+                  <CheatButton name="megaMultiplier" label="x50" emoji="🚀" color="yellow" />
+                  <CheatButton name="autoClicker" label="Авто" emoji="🤖" color="orange" />
+                  <CheatButton name="instantUpgrades" label="Прокачка" emoji="⚡" color="green" />
+                  <CheatButton name="goldenEggs" label="Золото" emoji="🥚" color="yellow" />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-semibold text-blue-300 mb-1">🚀 SpaceCollector</h4>
+                <div className="grid grid-cols-3 gap-1">
+                  <CheatButton name="magneticField" label="Магнит" emoji="🧲" color="blue" />
+                  <CheatButton name="slowMotion" label="Слоумо" emoji="🐌" color="purple" />
+                  <CheatButton name="shieldGenerator" label="Щит" emoji="🛡️" color="cyan" />
+                  <CheatButton name="scoreMultiplier" label="x5" emoji="📈" color="green" />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-semibold text-green-300 mb-1">🚶 WalkingGame</h4>
+                <div className="grid grid-cols-3 gap-1">
+                  <CheatButton name="jumpBoost" label="Прыжки" emoji="🦘" color="green" />
+                  <CheatButton name="wallHack" label="Стены" emoji="👻" color="red" />
+                  <CheatButton name="itemMagnet" label="Предметы" emoji="🧲" color="blue" />
+                  <CheatButton name="healthRegen" label="Реген" emoji="💚" color="pink" />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-semibold text-red-300 mb-1">⚔️ DefenseGame</h4>
+                <div className="grid grid-cols-3 gap-1">
+                  <CheatButton name="infiniteAmmo" label="Патроны" emoji="∞" color="orange" />
+                  <CheatButton name="rapidFire" label="x3 Урон" emoji="🔥" color="red" />
+                  <CheatButton name="wallPenetration" label="Пробой" emoji="🎯" color="purple" />
+                  <CheatButton name="enemyFreeze" label="Заморозка" emoji="🧊" color="cyan" />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-semibold text-purple-300 mb-1">🏎️ RacingGame</h4>
+                <div className="grid grid-cols-3 gap-1">
+                  <CheatButton name="nitroBoost" label="Нитро" emoji="💨" color="orange" />
+                  <CheatButton name="perfectSteering" label="Руль" emoji="🎯" color="blue" />
+                  <CheatButton name="ghostCar" label="Призрак" emoji="👻" color="purple" />
+                  <CheatButton name="maxSpeed" label="Скорость" emoji="🚀" color="red" />
+                  <CheatButton name="infiniteFuel" label="Топливо" emoji="⛽" color="green" />
+                  <CheatButton name="autoRepair" label="Ремонт" emoji="🔧" color="yellow" />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-semibold text-pink-300 mb-1">🧩 PuzzleGame</h4>
+                <div className="grid grid-cols-3 gap-1">
+                  <CheatButton name="autoSolve" label="Решение" emoji="🧠" color="pink" />
+                  <CheatButton name="hintMode" label="Подсказки" emoji="💡" color="yellow" />
+                  <CheatButton name="undoInfinite" label="∞ Отмен" emoji="↩️" color="blue" />
+                  <CheatButton name="timeBonus" label="Время" emoji="⏱️" color="green" />
+                  <CheatButton name="skipLevel" label="Пропуск" emoji="⏭️" color="purple" />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-semibold text-indigo-300 mb-1">🗡️ RPGGame</h4>
+                <div className="grid grid-cols-3 gap-1">
+                  <CheatButton name="maxLevel" label="99 LVL" emoji="⬆️" color="purple" />
+                  <CheatButton name="infiniteMana" label="∞ Мана" emoji="💙" color="blue" />
+                  <CheatButton name="criticalHit" label="100% Крит" emoji="💥" color="red" />
+                  <CheatButton name="autoLoot" label="Авто-лут" emoji="💰" color="yellow" />
+                  <CheatButton name="questComplete" label="Квесты" emoji="✅" color="green" />
+                  <CheatButton name="merchantDiscount" label="Скидка" emoji="🏪" color="orange" />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-semibold text-amber-300 mb-1">🏗️ BuilderGame</h4>
+                <div className="grid grid-cols-3 gap-1">
+                  <CheatButton name="infiniteLives" label="Жизни" emoji="💚" color="green" />
+                  <CheatButton name="saveAnywhere" label="Сохранение" emoji="💾" color="blue" />
+                  <CheatButton name="resourceMultiplier" label="x5 Ресурсы" emoji="📦" color="orange" />
+                  <CheatButton name="buildSpeed" label="Стройка" emoji="⚡" color="yellow" />
+                  <CheatButton name="craftInstant" label="Крафт" emoji="🔨" color="purple" />
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="combat" className="space-y-2 mt-0">
+              <div className="grid grid-cols-3 gap-1">
+                <CheatButton name="damageBoost" label="+500% Урон" emoji="⚔️" color="red" />
+                <CheatButton name="defenseBoost" label="+500% Защита" emoji="🛡️" color="blue" />
+                <CheatButton name="speedHack" label="Скорость x5" emoji="💨" color="cyan" />
+                <CheatButton name="jumpHack" label="Прыжок x10" emoji="🦘" color="lime" />
+                <CheatButton name="swimSpeed" label="Плавание" emoji="🏊" color="blue" />
+                <CheatButton name="espMode" label="ESP" emoji="📡" color="purple" />
+                <CheatButton name="radarHack" label="Радар" emoji="🎯" color="green" />
+                <CheatButton name="aimbot" label="Аимбот" emoji="🎯" color="red" />
+                <CheatButton name="recoilControl" label="Без отдачи" emoji="🔫" color="orange" />
+                <CheatButton name="penetrationShot" label="Сквозной" emoji="💥" color="yellow" />
+                <CheatButton name="autoAim" label="Авто-цель" emoji="🎯" color="red" />
+                <CheatButton name="autoBlock" label="Авто-блок" emoji="🛡️" color="blue" />
+                <CheatButton name="autoDodge" label="Увороты" emoji="🌀" color="cyan" />
+                <CheatButton name="autoParry" label="Парирование" emoji="⚔️" color="purple" />
+                <CheatButton name="autoCounter" label="Контратака" emoji="💥" color="red" />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="physics" className="space-y-2 mt-0">
+              <div className="grid grid-cols-3 gap-1">
+                <CheatButton name="moonGravity" label="Луна" emoji="🌙" color="gray" />
+                <CheatButton name="zeroGravity" label="0G" emoji="🛸" color="purple" />
+                <CheatButton name="superStrength" label="Сила" emoji="💪" color="red" />
+                <CheatButton name="nightVision" label="Ночь" emoji="🌙" color="green" />
+                <CheatButton name="thermalVision" label="Термо" emoji="🔥" color="orange" />
+                <CheatButton name="unlimitedPower" label="∞ Мощь" emoji="⚡" color="yellow" />
+                <CheatButton name="energyShield" label="Энерго-щит" emoji="🛡️" color="blue" />
+                <CheatButton name="forceField" label="Силовое поле" emoji="🔵" color="cyan" />
+                <CheatButton name="instantKill" label="Мгновенная смерть" emoji="💀" color="red" />
+                <CheatButton name="massDestruction" label="Разрушение" emoji="💣" color="red" />
+                <CheatButton name="weatherControl" label="Погода" emoji="⛈️" color="blue" />
+                <CheatButton name="dayNightCycle" label="День/Ночь" emoji="🌓" color="purple" />
+                <CheatButton name="spawnControl" label="Спавн" emoji="👾" color="green" />
+                <CheatButton name="enemyHealth" label="HP врагов" emoji="❤️" color="red" />
+                <CheatButton name="friendlyFire" label="Союзники" emoji="🤝" color="yellow" />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="fun" className="space-y-2 mt-0">
+              <div className="grid grid-cols-3 gap-1">
+                <CheatButton name="bigHead" label="Большая голова" emoji="🤯" color="orange" />
+                <CheatButton name="tinyMode" label="Карликовый" emoji="🐜" color="green" />
+                <CheatButton name="giantMode" label="Гигантский" emoji="🦖" color="purple" />
+                <CheatButton name="rainbowMode" label="Радужный" emoji="🌈" color="pink" />
+                <CheatButton name="mirrorWorld" label="Зеркальный мир" emoji="🪞" color="blue" />
+                <CheatButton name="silentMovement" label="Тихий" emoji="🤫" color="gray" />
+                <CheatButton name="noFallDamage" label="Без урона от падения" emoji="🪂" color="cyan" />
+                <CheatButton name="waterBreathing" label="Дыхание под водой" emoji="🌊" color="blue" />
+                <CheatButton name="fireImmunity" label="Огонь не страшен" emoji="🔥" color="red" />
+                <CheatButton name="poisonImmunity" label="Яд не действует" emoji="☢️" color="green" />
+              </div>
+            </TabsContent>
+          </div>
+        </Tabs>
       </Card>
     </div>
   );
