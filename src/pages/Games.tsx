@@ -13,11 +13,6 @@ import TetrisGame from '@/components/TetrisGame';
 import FlappyBirdGame from '@/components/FlappyBirdGame';
 import Game2048 from '@/components/Game2048';
 import MemoryGame from '@/components/MemoryGame';
-import MinesweeperGame from '@/components/MinesweeperGame';
-import ColoringGame from '@/components/ColoringGame';
-import BubblePopGame from '@/components/BubblePopGame';
-import PianoGame from '@/components/PianoGame';
-import ShapeSorterGame from '@/components/ShapeSorterGame';
 import AdminPanel from '@/components/AdminPanel';
 import { AdminProvider } from '@/contexts/AdminContext';
 import Icon from '@/components/ui/icon';
@@ -51,12 +46,6 @@ const games: GameInfo[] = [
   { id: 'flappy', title: 'Flappy Bird', description: 'Летай между труб!', emoji: '🐦', component: FlappyBirdGame, category: 'arcade', featured: true },
   { id: '2048', title: '2048', description: 'Собери плитку 2048!', emoji: '🎯', component: Game2048, category: 'puzzle', featured: true },
   { id: 'memory', title: 'Память', description: 'Найди пары карт!', emoji: '🎴', component: MemoryGame, category: 'memory', featured: true },
-  { id: 'minesweeper', title: 'Сапёр', description: 'Найди все мины!', emoji: '💣', component: MinesweeperGame, category: 'puzzle', featured: true },
-  
-  { id: 'coloring', title: 'Раскраска', description: 'Раскрась картинки!', emoji: '🎨', component: ColoringGame, category: 'kids', featured: true },
-  { id: 'bubbles', title: 'Поймай Пузыри', description: 'Лопай пузыри!', emoji: '🫧', component: BubblePopGame, category: 'kids', featured: true },
-  { id: 'piano', title: 'Пианино', description: 'Играй мелодии!', emoji: '🎹', component: PianoGame, category: 'kids', featured: true },
-  { id: 'shapes', title: 'Собери Фигуры', description: 'Сортируй фигуры!', emoji: '🔷', component: ShapeSorterGame, category: 'kids', featured: true },
 ];
 
 export default function Games() {
@@ -113,7 +102,7 @@ export default function Games() {
               🎮 Игровая Аркада
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              18 полноценных игр для всех возрастов! 🚀
+              13 полноценных игр с настоящим геймплеем! 🚀
             </p>
             <p className="text-sm text-retro-orange/70 mt-2">
               Созданы @war_references с любовью! ❤️
