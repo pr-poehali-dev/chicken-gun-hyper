@@ -46,56 +46,6 @@ const games: GameInfo[] = [
   { id: 'flappy', title: 'Flappy Bird', description: 'Летай между труб!', emoji: '🐦', component: FlappyBirdGame, category: 'arcade', featured: true },
   { id: '2048', title: '2048', description: 'Собери плитку 2048!', emoji: '🎯', component: Game2048, category: 'puzzle', featured: true },
   { id: 'memory', title: 'Память', description: 'Найди пары карт!', emoji: '🎴', component: MemoryGame, category: 'memory', featured: true },
-  
-
-  
-  { id: 'tower', title: 'Защита башни', description: 'Останови врагов!', emoji: '🏰', category: 'strategy', color: 'stone', gameType: 'clicker' },
-  { id: 'cards', title: 'Пасьянс', description: 'Раскладывай карты!', emoji: '🃏', category: 'puzzle', color: 'red', gameType: 'memory' },
-  { id: 'minesweeper', title: 'Сапер', description: 'Найди все мины!', emoji: '💣', category: 'puzzle', color: 'orange', gameType: 'memory' },
-  { id: 'simon', title: 'Саймон', description: 'Повторяй цвета!', emoji: '🎨', category: 'memory', color: 'rainbow', gameType: 'memory' },
-  { id: 'whack', title: 'Кротобой', description: 'Бей по кротам!', emoji: '🔨', category: 'arcade', color: 'brown', gameType: 'reaction' },
-  
-  { id: 'bubble', title: 'Пузыри', description: 'Лопай пузыри!', emoji: '🫧', category: 'arcade', color: 'cyan', gameType: 'clicker' },
-  { id: 'fruit', title: 'Фруктовый ниндзя', description: 'Режь фрукты!', emoji: '🍉', category: 'arcade', color: 'red', gameType: 'reaction' },
-  { id: 'jump', title: 'Прыгун', description: 'Прыгай выше!', emoji: '🦘', category: 'arcade', color: 'green', gameType: 'platformer' },
-  { id: 'run', title: 'Бесконечный бег', description: 'Беги без остановки!', emoji: '🏃', category: 'arcade', color: 'blue', gameType: 'dodge' },
-  { id: 'fly', title: 'Вертолет', description: 'Пролети через туннель!', emoji: '🚁', category: 'arcade', color: 'sky', gameType: 'dodge' },
-  
-
-  { id: 'word', title: 'Словарь', description: 'Собирай слова!', emoji: '📝', category: 'puzzle', color: 'blue', gameType: 'memory' },
-  { id: 'math', title: 'Математика', description: 'Реши примеры!', emoji: '🔢', category: 'educational', color: 'green', gameType: 'memory' },
-  { id: 'typing', title: 'Печатание', description: 'Научись печатать!', emoji: '⌨️', category: 'educational', color: 'gray', gameType: 'reaction' },
-  { id: 'quiz', title: 'Викторина', description: 'Ответь на вопросы!', emoji: '❓', category: 'educational', color: 'yellow', gameType: 'memory' },
-  
-  { id: 'platformer', title: 'Платформер', description: 'Прыгай по платформам!', emoji: '🎮', category: 'platformer', color: 'orange', gameType: 'platformer' },
-  { id: 'shooter', title: 'Шутер', description: 'Стреляй по врагам!', emoji: '🔫', category: 'action', color: 'red', gameType: 'reaction' },
-  { id: 'fishing', title: 'Рыбалка', description: 'Лови рыбу!', emoji: '🎣', category: 'simulation', color: 'blue', gameType: 'clicker' },
-  { id: 'farm', title: 'Ферма', description: 'Выращивай урожай!', emoji: '🌾', category: 'simulation', color: 'green', gameType: 'clicker' },
-  { id: 'restaurant', title: 'Ресторан', description: 'Обслуживай клиентов!', emoji: '🍔', category: 'simulation', color: 'yellow', gameType: 'clicker' },
-  
-  { id: 'zoo', title: 'Зоопарк', description: 'Заботься о животных!', emoji: '🦁', category: 'simulation', color: 'orange', gameType: 'clicker' },
-  { id: 'hotel', title: 'Отель', description: 'Управляй отелем!', emoji: '🏨', category: 'simulation', color: 'blue', gameType: 'clicker' },
-  { id: 'hospital', title: 'Больница', description: 'Лечи пациентов!', emoji: '🏥', category: 'simulation', color: 'red', gameType: 'clicker' },
-  { id: 'school', title: 'Школа', description: 'Управляй школой!', emoji: '🏫', category: 'simulation', color: 'purple', gameType: 'clicker' },
-  { id: 'shop', title: 'Магазин', description: 'Продавай товары!', emoji: '🏪', category: 'simulation', color: 'green', gameType: 'clicker' },
-  
-  { id: 'ninja', title: 'Ниндзя', description: 'Стань ниндзя!', emoji: '🥷', category: 'action', color: 'black', gameType: 'platformer' },
-  { id: 'pirate', title: 'Пират', description: 'Найди сокровища!', emoji: '🏴‍☠️', category: 'adventure', color: 'brown', gameType: 'collect' },
-  { id: 'knight', title: 'Рыцарь', description: 'Спаси принцессу!', emoji: '🛡️', category: 'adventure', color: 'silver', gameType: 'platformer' },
-  { id: 'wizard', title: 'Волшебник', description: 'Используй магию!', emoji: '🧙', category: 'rpg', color: 'purple', gameType: 'collect' },
-  { id: 'robot', title: 'Робот', description: 'Спаси мир!', emoji: '🤖', category: 'action', color: 'gray', gameType: 'shooter' },
-  
-  { id: 'alien', title: 'Инопланетяне', description: 'Защити Землю!', emoji: '👽', category: 'action', color: 'green', gameType: 'shooter' },
-  { id: 'zombie', title: 'Зомби', description: 'Выживай!', emoji: '🧟', category: 'action', color: 'red', gameType: 'shooter' },
-  { id: 'dino', title: 'Динозавр', description: 'Беги и прыгай!', emoji: '🦕', category: 'arcade', color: 'green', gameType: 'dodge' },
-  { id: 'penguin', title: 'Пингвин', description: 'Скользи по льду!', emoji: '🐧', category: 'arcade', color: 'cyan', gameType: 'dodge' },
-  { id: 'cat', title: 'Кошка', description: 'Лови мышей!', emoji: '🐱', category: 'arcade', color: 'orange', gameType: 'reaction' },
-  
-  { id: 'dog', title: 'Собака', description: 'Лови фрисби!', emoji: '🐕', category: 'arcade', color: 'brown', gameType: 'reaction' },
-  { id: 'bird', title: 'Птица', description: 'Летай свободно!', emoji: '🦅', category: 'arcade', color: 'blue', gameType: 'dodge' },
-  { id: 'fish', title: 'Рыбка', description: 'Плыви в океане!', emoji: '🐠', category: 'arcade', color: 'cyan', gameType: 'dodge' },
-  { id: 'bee', title: 'Пчела', description: 'Собирай нектар!', emoji: '🐝', category: 'arcade', color: 'yellow', gameType: 'collect' },
-  { id: 'butterfly', title: 'Бабочка', description: 'Летай в саду!', emoji: '🦋', category: 'arcade', color: 'purple', gameType: 'collect' },
 ];
 
 export default function Games() {
@@ -152,10 +102,10 @@ export default function Games() {
               🎮 Игровая Аркада
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Коллекция классических и современных игр! 🚀
+              13 полноценных игр с настоящим геймплеем! 🚀
             </p>
             <p className="text-sm text-retro-orange/70 mt-2">
-              13 полноценных игр + 46 мини-игр созданы @war_references с любовью! ❤️
+              Созданы @war_references с любовью! ❤️
             </p>
           </div>
 
