@@ -19,6 +19,9 @@ import BubblePopGame from '@/components/BubblePopGame';
 import PianoGame from '@/components/PianoGame';
 import ShapeSorterGame from '@/components/ShapeSorterGame';
 import DrawingGame from '@/components/DrawingGame';
+import CountingGame from '@/components/CountingGame';
+import AnimalMatchGame from '@/components/AnimalMatchGame';
+import ColorsGame from '@/components/ColorsGame';
 import AdminPanel from '@/components/AdminPanel';
 import { AdminProvider } from '@/contexts/AdminContext';
 import Icon from '@/components/ui/icon';
@@ -60,6 +63,9 @@ const games: GameInfo[] = [
   { id: 'piano', title: 'Пианино', description: 'Играй мелодии!', emoji: '🎹', component: PianoGame, category: 'kids', featured: true, isKids: true },
   { id: 'shapes', title: 'Собери Фигуры', description: 'Сортируй фигуры!', emoji: '🔷', component: ShapeSorterGame, category: 'kids', featured: true, isKids: true },
   { id: 'drawing', title: 'Рисовалка', description: 'Рисуй всё, что хочешь!', emoji: '🖌️', component: DrawingGame, category: 'kids', featured: true, isKids: true },
+  { id: 'counting', title: 'Учимся считать', description: 'Счёт от 1 до 10!', emoji: '🔢', component: CountingGame, category: 'kids', featured: true, isKids: true },
+  { id: 'animals', title: 'Найди пару', description: 'Найди одинаковых животных!', emoji: '🐾', component: AnimalMatchGame, category: 'kids', featured: true, isKids: true },
+  { id: 'colors', title: 'Учим цвета', description: 'Изучаем цвета!', emoji: '🎨', component: ColorsGame, category: 'kids', featured: true, isKids: true },
 ];
 
 export default function Games() {
@@ -117,10 +123,10 @@ export default function Games() {
               🎮 Игровая Аркада
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              18 полноценных игр для всех возрастов! 🚀
+              22 полноценных игры для всех возрастов! 🚀
             </p>
             <div className="flex justify-center gap-2 mt-3">
-              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold">👶 5 детских</span>
+              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold">👶 8 детских (4-5 лет)</span>
               <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-semibold">🎮 14 классика</span>
             </div>
             <p className="text-sm text-retro-orange/70 mt-2">
