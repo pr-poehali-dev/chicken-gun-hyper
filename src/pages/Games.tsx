@@ -29,6 +29,7 @@ interface GameInfo {
   color?: string;
   gameType?: 'clicker' | 'dodge' | 'collect' | 'memory' | 'reaction' | 'platformer';
   featured?: boolean;
+  isKids?: boolean;
 }
 
 const games: GameInfo[] = [
@@ -46,6 +47,12 @@ const games: GameInfo[] = [
   { id: 'flappy', title: 'Flappy Bird', description: 'Летай между труб!', emoji: '🐦', component: FlappyBirdGame, category: 'arcade', featured: true },
   { id: '2048', title: '2048', description: 'Собери плитку 2048!', emoji: '🎯', component: Game2048, category: 'puzzle', featured: true },
   { id: 'memory', title: 'Память', description: 'Найди пары карт!', emoji: '🎴', component: MemoryGame, category: 'memory', featured: true },
+  { id: 'minesweeper', title: 'Сапёр', description: 'Найди все мины!', emoji: '💣', component: MinesweeperGame, category: 'puzzle', featured: true },
+  
+  { id: 'coloring', title: 'Раскраска', description: 'Раскрась картинки!', emoji: '🎨', component: ColoringGame, category: 'kids', featured: true, isKids: true },
+  { id: 'bubbles', title: 'Поймай Пузыри', description: 'Лопай пузыри!', emoji: '🫧', component: BubblePopGame, category: 'kids', featured: true, isKids: true },
+  { id: 'piano', title: 'Пианино', description: 'Играй мелодии!', emoji: '🎹', component: PianoGame, category: 'kids', featured: true, isKids: true },
+  { id: 'shapes', title: 'Собери Фигуры', description: 'Сортируй фигуры!', emoji: '🔷', component: ShapeSorterGame, category: 'kids', featured: true, isKids: true },
 ];
 
 export default function Games() {
@@ -80,6 +87,7 @@ export default function Games() {
       platformer: '🎯 Платформеры',
       memory: '🧠 Память',
       educational: '📚 Обучающие',
+      kids: '👶 Детские',
     };
     return labels[category] || category;
   };
@@ -102,8 +110,12 @@ export default function Games() {
               🎮 Игровая Аркада
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              13 полноценных игр с настоящим геймплеем! 🚀
+              18 полноценных игр для всех возрастов! 🚀
             </p>
+            <div className="flex justify-center gap-2 mt-3">
+              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold">👶 4 детские</span>
+              <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-semibold">🎮 14 классика</span>
+            </div>
             <p className="text-sm text-retro-orange/70 mt-2">
               Созданы @war_references с любовью! ❤️
             </p>
@@ -184,11 +196,18 @@ export default function Games() {
                     <div className="bg-gradient-to-br from-pixel-dark/80 to-gray-900/80 border border-retro-orange/30 rounded-xl p-4 h-full hover:border-retro-orange/60 hover:shadow-xl hover:shadow-retro-orange/20">
                       <div className="flex justify-between items-start mb-2">
                         <div className="text-3xl">{game.emoji}</div>
-                        {game.featured && (
-                          <div className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded-full">
-                            ⭐
-                          </div>
-                        )}
+                        <div className="flex flex-col gap-1">
+                          {game.isKids && (
+                            <div className="text-xs px-2 py-0.5 bg-purple-500/30 text-purple-300 rounded-full border border-purple-400/30">
+                              👶
+                            </div>
+                          )}
+                          {game.featured && (
+                            <div className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded-full">
+                              ⭐
+                            </div>
+                          )}
+                        </div>
                       </div>
 
                       <h3 className="font-orbitron text-sm text-retro-orange mb-1 group-hover:text-white transition-colors line-clamp-1">
