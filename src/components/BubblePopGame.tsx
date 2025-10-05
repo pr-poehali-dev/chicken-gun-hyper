@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useCheat } from '@/contexts/CheatContext';
 
 interface Bubble {
   id: number;
@@ -15,7 +14,7 @@ const EMOJIS = ['🎈', '🫧', '⭐', '🌟', '✨', '💫', '🎀', '🎁', '�
 const COLORS = ['#FF69B4', '#87CEEB', '#FFD700', '#98FB98', '#DDA0DD', '#F0E68C', '#FF6347', '#7B68EE'];
 
 export default function BubblePopGame() {
-  const { cheatsEnabled } = useCheat();
+  const [cheatsEnabled, setCheatsEnabled] = useState(false);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
@@ -135,6 +134,19 @@ export default function BubblePopGame() {
             >
               {timeLeft === 0 ? '🔄 Играть снова' : '🚀 Начать игру'}
             </button>
+            
+            {timeLeft === 0 && (
+              <button
+                onClick={() => setCheatsEnabled(!cheatsEnabled)}
+                className={`mt-4 px-8 py-3 rounded-xl font-bold transition ${
+                  cheatsEnabled
+                    ? 'bg-yellow-400 text-yellow-900'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                {cheatsEnabled ? '⚡ Читы ВКЛ' : '⚡ Читы ВЫКЛ'}
+              </button>
+            )}
           </div>
         </div>
       )}
