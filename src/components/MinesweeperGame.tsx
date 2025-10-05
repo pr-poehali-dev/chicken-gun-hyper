@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useCheat } from '@/contexts/CheatContext';
 
 interface Cell {
   isMine: boolean;
@@ -17,7 +16,7 @@ const DIFFICULTIES = {
 };
 
 export default function MinesweeperGame() {
-  const { cheatsEnabled } = useCheat();
+  const [cheatsEnabled, setCheatsEnabled] = useState(false);
   const [difficulty, setDifficulty] = useState<Difficulty>('easy');
   const [board, setBoard] = useState<Cell[][]>([]);
   const [gameOver, setGameOver] = useState(false);
@@ -210,6 +209,17 @@ export default function MinesweeperGame() {
           className="px-6 py-2 bg-gradient-to-r from-retro-purple to-retro-pink text-white rounded-lg font-semibold hover:scale-105 transition"
         >
           🔄 Новая игра
+        </button>
+
+        <button
+          onClick={() => setCheatsEnabled(!cheatsEnabled)}
+          className={`px-4 py-2 rounded-lg font-semibold transition ${
+            cheatsEnabled
+              ? 'bg-yellow-500 text-slate-900'
+              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+          }`}
+        >
+          {cheatsEnabled ? '👁️ Читы ВКЛ' : '👁️ Читы ВЫКЛ'}
         </button>
       </div>
 
