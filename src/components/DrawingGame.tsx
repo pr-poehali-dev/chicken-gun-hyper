@@ -1,5 +1,273 @@
 import React, { useRef, useState, useEffect } from 'react';
 
+interface Template {
+  id: string;
+  name: string;
+  emoji: string;
+  draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void;
+}
+
+const templates: Template[] = [
+  {
+    id: 'cat',
+    name: 'Котик',
+    emoji: '🐱',
+    draw: (ctx, w, h) => {
+      const cx = w / 2, cy = h / 2;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      
+      ctx.beginPath();
+      ctx.arc(cx, cy, 80, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(cx - 60, cy - 60);
+      ctx.lineTo(cx - 80, cy - 120);
+      ctx.lineTo(cx - 40, cy - 80);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(cx + 60, cy - 60);
+      ctx.lineTo(cx + 80, cy - 120);
+      ctx.lineTo(cx + 40, cy - 80);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.arc(cx - 30, cy - 20, 15, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(cx + 30, cy - 20, 15, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.arc(cx, cy + 10, 10, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + 10);
+      ctx.lineTo(cx, cy + 30);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.arc(cx - 15, cy + 30, 10, 0, Math.PI);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(cx + 15, cy + 30, 10, 0, Math.PI);
+      ctx.stroke();
+    }
+  },
+  {
+    id: 'house',
+    name: 'Домик',
+    emoji: '🏠',
+    draw: (ctx, w, h) => {
+      const cx = w / 2, cy = h / 2;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      
+      ctx.strokeRect(cx - 80, cy - 20, 160, 120);
+      
+      ctx.beginPath();
+      ctx.moveTo(cx - 100, cy - 20);
+      ctx.lineTo(cx, cy - 100);
+      ctx.lineTo(cx + 100, cy - 20);
+      ctx.closePath();
+      ctx.stroke();
+      
+      ctx.strokeRect(cx - 25, cy + 40, 50, 60);
+      
+      ctx.strokeRect(cx - 60, cy, 30, 30);
+      ctx.strokeRect(cx + 30, cy, 30, 30);
+    }
+  },
+  {
+    id: 'flower',
+    name: 'Цветок',
+    emoji: '🌸',
+    draw: (ctx, w, h) => {
+      const cx = w / 2, cy = h / 2;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI * 2 * i) / 6;
+        const x = cx + Math.cos(angle) * 50;
+        const y = cy + Math.sin(angle) * 50;
+        ctx.beginPath();
+        ctx.arc(x, y, 30, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      
+      ctx.beginPath();
+      ctx.arc(cx, cy, 25, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + 25);
+      ctx.lineTo(cx, cy + 120);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + 60);
+      ctx.bezierCurveTo(cx + 30, cy + 50, cx + 40, cy + 70, cx + 30, cy + 80);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + 80);
+      ctx.bezierCurveTo(cx - 30, cy + 70, cx - 40, cy + 90, cx - 30, cy + 100);
+      ctx.stroke();
+    }
+  },
+  {
+    id: 'sun',
+    name: 'Солнышко',
+    emoji: '☀️',
+    draw: (ctx, w, h) => {
+      const cx = w / 2, cy = h / 2;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      
+      ctx.beginPath();
+      ctx.arc(cx, cy, 60, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      for (let i = 0; i < 12; i++) {
+        const angle = (Math.PI * 2 * i) / 12;
+        const x1 = cx + Math.cos(angle) * 70;
+        const y1 = cy + Math.sin(angle) * 70;
+        const x2 = cx + Math.cos(angle) * 100;
+        const y2 = cy + Math.sin(angle) * 100;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+      
+      ctx.beginPath();
+      ctx.arc(cx - 20, cy - 10, 8, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(cx + 20, cy - 10, 8, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.arc(cx, cy + 20, 20, 0, Math.PI);
+      ctx.stroke();
+    }
+  },
+  {
+    id: 'tree',
+    name: 'Дерево',
+    emoji: '🌳',
+    draw: (ctx, w, h) => {
+      const cx = w / 2, cy = h / 2;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      
+      ctx.strokeRect(cx - 15, cy + 20, 30, 80);
+      
+      ctx.beginPath();
+      ctx.arc(cx, cy - 40, 60, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.arc(cx - 40, cy - 10, 50, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.arc(cx + 40, cy - 10, 50, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  },
+  {
+    id: 'butterfly',
+    name: 'Бабочка',
+    emoji: '🦋',
+    draw: (ctx, w, h) => {
+      const cx = w / 2, cy = h / 2;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      
+      ctx.beginPath();
+      ctx.ellipse(cx - 50, cy - 40, 40, 60, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.ellipse(cx + 50, cy - 40, 40, 60, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.ellipse(cx - 50, cy + 40, 35, 50, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.ellipse(cx + 50, cy + 40, 35, 50, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 80);
+      ctx.lineTo(cx, cy + 80);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.arc(cx, cy - 85, 8, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 80);
+      ctx.lineTo(cx - 15, cy - 95);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 80);
+      ctx.lineTo(cx + 15, cy - 95);
+      ctx.stroke();
+    }
+  },
+  {
+    id: 'car',
+    name: 'Машинка',
+    emoji: '🚗',
+    draw: (ctx, w, h) => {
+      const cx = w / 2, cy = h / 2;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      
+      ctx.strokeRect(cx - 80, cy, 160, 60);
+      
+      ctx.strokeRect(cx - 50, cy - 40, 100, 40);
+      
+      ctx.beginPath();
+      ctx.arc(cx - 50, cy + 60, 20, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.arc(cx + 50, cy + 60, 20, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      ctx.strokeRect(cx - 40, cy - 30, 35, 25);
+      ctx.strokeRect(cx + 5, cy - 30, 35, 25);
+    }
+  },
+  {
+    id: 'heart',
+    name: 'Сердечко',
+    emoji: '💖',
+    draw: (ctx, w, h) => {
+      const cx = w / 2, cy = h / 2;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 3;
+      
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 40);
+      ctx.bezierCurveTo(cx - 80, cy - 100, cx - 100, cy - 20, cx, cy + 60);
+      ctx.bezierCurveTo(cx + 100, cy - 20, cx + 80, cy - 100, cx, cy - 40);
+      ctx.closePath();
+      ctx.stroke();
+    }
+  }
+];
+
 export default function DrawingGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -7,6 +275,7 @@ export default function DrawingGame() {
   const [brushSize, setBrushSize] = useState(5);
   const [tool, setTool] = useState<'brush' | 'eraser'>('brush');
   const [isAutoColoring, setIsAutoColoring] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
 
   const colors = [
     { name: 'Красный', value: '#FF0000' },
@@ -120,6 +389,19 @@ export default function DrawingGame() {
     link.click();
   };
 
+  const loadTemplate = (template: Template) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    template.draw(ctx, canvas.width, canvas.height);
+    setShowTemplates(false);
+  };
+
   const autoColorDrawing = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -180,11 +462,18 @@ export default function DrawingGame() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-6">
           <h1 className="font-orbitron text-5xl text-purple-600 mb-2">🎨 Рисовалка</h1>
-          <p className="text-purple-500 text-lg">Рисуй всё, что захочешь!</p>
+          <p className="text-purple-500 text-lg">Рисуй или выбери готовую раскраску!</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 mb-6">
-          <div className="flex flex-wrap gap-4 justify-center items-center">
+          <div className="flex flex-wrap gap-4 justify-center items-center mb-6">
+            <button
+              onClick={() => setShowTemplates(!showTemplates)}
+              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl font-bold transition hover:scale-105"
+            >
+              📋 {showTemplates ? 'Скрыть раскраски' : 'Готовые раскраски'}
+            </button>
+
             <div className="flex gap-2">
               <button
                 onClick={() => setTool('brush')}
@@ -248,6 +537,24 @@ export default function DrawingGame() {
             </button>
           </div>
 
+          {showTemplates && (
+            <div className="mb-6 p-6 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-2xl">
+              <h3 className="text-2xl font-bold text-blue-600 text-center mb-4">Выбери раскраску:</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+                {templates.map((template) => (
+                  <button
+                    key={template.id}
+                    onClick={() => loadTemplate(template)}
+                    className="bg-white hover:bg-blue-50 p-4 rounded-xl shadow-lg transition hover:scale-110 border-2 border-blue-300 hover:border-blue-500"
+                  >
+                    <div className="text-4xl mb-2">{template.emoji}</div>
+                    <p className="text-sm font-bold text-blue-600">{template.name}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mt-6">
             <p className="text-gray-700 font-semibold text-center mb-3">Выбери цвет:</p>
             <div className="grid grid-cols-6 md:grid-cols-12 gap-3 max-w-4xl mx-auto">
@@ -290,9 +597,9 @@ export default function DrawingGame() {
 
         <div className="mt-6 bg-white/70 backdrop-blur-sm px-6 py-4 rounded-xl text-center">
           <p className="text-purple-600 font-semibold text-lg">
-            💡 Совет: Используй мышку или палец для рисования!
+            💡 Выбери готовую раскраску или рисуй сама!
             <br />
-            Скачивай свои рисунки кнопкой "Скачать"! 🎨
+            Используй "ИИ Раскраска" для автоматического раскрашивания! 🎨✨
           </p>
         </div>
       </div>
