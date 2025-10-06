@@ -6,6 +6,7 @@ export default function DrawingGame() {
   const [color, setColor] = useState('#FF0000');
   const [brushSize, setBrushSize] = useState(5);
   const [tool, setTool] = useState<'brush' | 'eraser'>('brush');
+  const [isAutoColoring, setIsAutoColoring] = useState(false);
 
   const colors = [
     { name: 'Красный', value: '#FF0000' },
@@ -119,6 +120,61 @@ export default function DrawingGame() {
     link.click();
   };
 
+  const autoColorDrawing = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    setIsAutoColoring(true);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      setIsAutoColoring(false);
+      return;
+    }
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    const colorPalette = [
+      [255, 105, 180],
+      [135, 206, 250],
+      [144, 238, 144],
+      [255, 215, 0],
+      [255, 160, 122],
+      [221, 160, 221],
+      [173, 216, 230],
+      [255, 182, 193],
+    ];
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+
+      if (r === 255 && g === 255 && b === 255) {
+        const randomChance = Math.random();
+        if (randomChance > 0.7) {
+          const randomColor = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+          data[i] = randomColor[0];
+          data[i + 1] = randomColor[1];
+          data[i + 2] = randomColor[2];
+        }
+      } else if (r < 50 && g < 50 && b < 50) {
+      } else {
+        const brightness = (r + g + b) / 3;
+        if (brightness < 200) {
+          const randomColor = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+          const blendFactor = 0.6;
+          data[i] = Math.floor(r * (1 - blendFactor) + randomColor[0] * blendFactor);
+          data[i + 1] = Math.floor(g * (1 - blendFactor) + randomColor[1] * blendFactor);
+          data[i + 2] = Math.floor(b * (1 - blendFactor) + randomColor[2] * blendFactor);
+        }
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+    setTimeout(() => setIsAutoColoring(false), 500);
+  };
+
   return (
     <div className="relative w-full min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-6">
       <div className="max-w-6xl mx-auto">
@@ -170,6 +226,18 @@ export default function DrawingGame() {
               className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition hover:scale-105"
             >
               🗑️ Очистить
+            </button>
+
+            <button
+              onClick={autoColorDrawing}
+              disabled={isAutoColoring}
+              className={`px-6 py-3 rounded-xl font-bold transition hover:scale-105 ${
+                isAutoColoring
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white'
+              }`}
+            >
+              {isAutoColoring ? '✨ Раскрашиваю...' : '✨ ИИ Раскраска'}
             </button>
 
             <button
