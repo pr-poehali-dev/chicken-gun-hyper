@@ -7,6 +7,47 @@ interface Template {
   draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void;
 }
 
+interface Sticker {
+  id: string;
+  emoji: string;
+  name: string;
+  size: number;
+}
+
+const catStickers: Sticker[] = [
+  { id: 'cat1', emoji: '😺', name: 'Котик', size: 60 },
+  { id: 'cat2', emoji: '😸', name: 'Улыбка', size: 60 },
+  { id: 'cat3', emoji: '😹', name: 'Смех', size: 60 },
+  { id: 'cat4', emoji: '😻', name: 'Влюблён', size: 60 },
+  { id: 'cat5', emoji: '😼', name: 'Хитрец', size: 60 },
+  { id: 'cat6', emoji: '😽', name: 'Поцелуй', size: 60 },
+  { id: 'cat7', emoji: '🙀', name: 'Удивлён', size: 60 },
+  { id: 'cat8', emoji: '😿', name: 'Грустный', size: 60 },
+  { id: 'cat9', emoji: '😾', name: 'Злой', size: 60 },
+  { id: 'cat10', emoji: '🐱', name: 'Мордочка', size: 60 },
+  { id: 'cat11', emoji: '🐈', name: 'Кошка', size: 60 },
+  { id: 'cat12', emoji: '🐈‍⬛', name: 'Чёрный', size: 60 },
+];
+
+const funStickers: Sticker[] = [
+  { id: 'heart1', emoji: '💖', name: 'Сердце', size: 50 },
+  { id: 'heart2', emoji: '💕', name: 'Два сердца', size: 50 },
+  { id: 'heart3', emoji: '💗', name: 'Растущее', size: 50 },
+  { id: 'heart4', emoji: '💝', name: 'С лентой', size: 50 },
+  { id: 'star1', emoji: '⭐', name: 'Звезда', size: 50 },
+  { id: 'star2', emoji: '🌟', name: 'Сияние', size: 50 },
+  { id: 'star3', emoji: '✨', name: 'Искры', size: 50 },
+  { id: 'star4', emoji: '💫', name: 'Звёздочки', size: 50 },
+  { id: 'flower1', emoji: '🌸', name: 'Цветок', size: 50 },
+  { id: 'flower2', emoji: '🌺', name: 'Гибискус', size: 50 },
+  { id: 'flower3', emoji: '🌼', name: 'Ромашка', size: 50 },
+  { id: 'flower4', emoji: '🌷', name: 'Тюльпан', size: 50 },
+  { id: 'rainbow', emoji: '🌈', name: 'Радуга', size: 50 },
+  { id: 'butterfly', emoji: '🦋', name: 'Бабочка', size: 50 },
+  { id: 'sparkle', emoji: '🎀', name: 'Бантик', size: 50 },
+  { id: 'crown', emoji: '👑', name: 'Корона', size: 50 },
+];
+
 const templates: Template[] = [
   {
     id: 'cat',
@@ -120,136 +161,6 @@ const templates: Template[] = [
     }
   },
   {
-    id: 'sun',
-    name: 'Солнышко',
-    emoji: '☀️',
-    draw: (ctx, w, h) => {
-      const cx = w / 2, cy = h / 2;
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 3;
-      
-      ctx.beginPath();
-      ctx.arc(cx, cy, 60, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      for (let i = 0; i < 12; i++) {
-        const angle = (Math.PI * 2 * i) / 12;
-        const x1 = cx + Math.cos(angle) * 70;
-        const y1 = cy + Math.sin(angle) * 70;
-        const x2 = cx + Math.cos(angle) * 100;
-        const y2 = cy + Math.sin(angle) * 100;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-      }
-      
-      ctx.beginPath();
-      ctx.arc(cx - 20, cy - 10, 8, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(cx + 20, cy - 10, 8, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.arc(cx, cy + 20, 20, 0, Math.PI);
-      ctx.stroke();
-    }
-  },
-  {
-    id: 'tree',
-    name: 'Дерево',
-    emoji: '🌳',
-    draw: (ctx, w, h) => {
-      const cx = w / 2, cy = h / 2;
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 3;
-      
-      ctx.strokeRect(cx - 15, cy + 20, 30, 80);
-      
-      ctx.beginPath();
-      ctx.arc(cx, cy - 40, 60, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.arc(cx - 40, cy - 10, 50, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.arc(cx + 40, cy - 10, 50, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-  },
-  {
-    id: 'butterfly',
-    name: 'Бабочка',
-    emoji: '🦋',
-    draw: (ctx, w, h) => {
-      const cx = w / 2, cy = h / 2;
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 3;
-      
-      ctx.beginPath();
-      ctx.ellipse(cx - 50, cy - 40, 40, 60, 0, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.ellipse(cx + 50, cy - 40, 40, 60, 0, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.ellipse(cx - 50, cy + 40, 35, 50, 0, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.ellipse(cx + 50, cy + 40, 35, 50, 0, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - 80);
-      ctx.lineTo(cx, cy + 80);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.arc(cx, cy - 85, 8, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - 80);
-      ctx.lineTo(cx - 15, cy - 95);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - 80);
-      ctx.lineTo(cx + 15, cy - 95);
-      ctx.stroke();
-    }
-  },
-  {
-    id: 'car',
-    name: 'Машинка',
-    emoji: '🚗',
-    draw: (ctx, w, h) => {
-      const cx = w / 2, cy = h / 2;
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 3;
-      
-      ctx.strokeRect(cx - 80, cy, 160, 60);
-      
-      ctx.strokeRect(cx - 50, cy - 40, 100, 40);
-      
-      ctx.beginPath();
-      ctx.arc(cx - 50, cy + 60, 20, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.arc(cx + 50, cy + 60, 20, 0, Math.PI * 2);
-      ctx.stroke();
-      
-      ctx.strokeRect(cx - 40, cy - 30, 35, 25);
-      ctx.strokeRect(cx + 5, cy - 30, 35, 25);
-    }
-  },
-  {
     id: 'heart',
     name: 'Сердечко',
     emoji: '💖',
@@ -273,9 +184,12 @@ export default function DrawingGame() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState('#FF0000');
   const [brushSize, setBrushSize] = useState(5);
-  const [tool, setTool] = useState<'brush' | 'eraser'>('brush');
+  const [tool, setTool] = useState<'brush' | 'eraser' | 'sticker'>('brush');
   const [isAutoColoring, setIsAutoColoring] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
+  const [showStickers, setShowStickers] = useState(false);
+  const [selectedSticker, setSelectedSticker] = useState<Sticker | null>(null);
+  const [stickerSize, setStickerSize] = useState(60);
 
   const colors = [
     { name: 'Красный', value: '#FF0000' },
@@ -305,7 +219,42 @@ export default function DrawingGame() {
     ctx.lineJoin = 'round';
   }, []);
 
+  const placeSticker = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    if (!selectedSticker) return;
+    
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const rect = canvas.getBoundingClientRect();
+    let x, y;
+
+    if ('touches' in e) {
+      x = e.touches[0].clientX - rect.left;
+      y = e.touches[0].clientY - rect.top;
+    } else {
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+    }
+
+    const scale = canvas.width / rect.width;
+    x *= scale;
+    y *= scale;
+
+    ctx.font = `${stickerSize}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(selectedSticker.emoji, x, y);
+  };
+
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    if (tool === 'sticker') {
+      placeSticker(e);
+      return;
+    }
+    
     setIsDrawing(true);
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -324,12 +273,16 @@ export default function DrawingGame() {
       y = e.clientY - rect.top;
     }
 
+    const scale = canvas.width / rect.width;
+    x *= scale;
+    y *= scale;
+
     ctx.beginPath();
     ctx.moveTo(x, y);
   };
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (!isDrawing) return;
+    if (!isDrawing || tool === 'sticker') return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -348,6 +301,10 @@ export default function DrawingGame() {
       x = e.clientX - rect.left;
       y = e.clientY - rect.top;
     }
+
+    const scale = canvas.width / rect.width;
+    x *= scale;
+    y *= scale;
 
     if (tool === 'eraser') {
       ctx.strokeStyle = '#FFFFFF';
@@ -462,21 +419,41 @@ export default function DrawingGame() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-6">
           <h1 className="font-orbitron text-5xl text-purple-600 mb-2">🎨 Рисовалка</h1>
-          <p className="text-purple-500 text-lg">Рисуй или выбери готовую раскраску!</p>
+          <p className="text-purple-500 text-lg">Рисуй кисточкой или добавляй стикеры котиков! 😺</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 mb-6">
           <div className="flex flex-wrap gap-4 justify-center items-center mb-6">
             <button
-              onClick={() => setShowTemplates(!showTemplates)}
+              onClick={() => {
+                setShowStickers(!showStickers);
+                setShowTemplates(false);
+              }}
+              className={`px-6 py-3 rounded-xl font-bold text-xl transition hover:scale-105 ${
+                showStickers
+                  ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
+                  : 'bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white'
+              }`}
+            >
+              😺 {showStickers ? 'Скрыть стикеры' : 'СТИКЕРЫ КОТИКОВ'}
+            </button>
+
+            <button
+              onClick={() => {
+                setShowTemplates(!showTemplates);
+                setShowStickers(false);
+              }}
               className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl font-bold transition hover:scale-105"
             >
-              📋 {showTemplates ? 'Скрыть раскраски' : 'Готовые раскраски'}
+              📋 {showTemplates ? 'Скрыть раскраски' : 'Раскраски'}
             </button>
 
             <div className="flex gap-2">
               <button
-                onClick={() => setTool('brush')}
+                onClick={() => {
+                  setTool('brush');
+                  setSelectedSticker(null);
+                }}
                 className={`px-6 py-3 rounded-xl font-bold transition ${
                   tool === 'brush'
                     ? 'bg-purple-500 text-white scale-105'
@@ -486,7 +463,10 @@ export default function DrawingGame() {
                 🖌️ Кисть
               </button>
               <button
-                onClick={() => setTool('eraser')}
+                onClick={() => {
+                  setTool('eraser');
+                  setSelectedSticker(null);
+                }}
                 className={`px-6 py-3 rounded-xl font-bold transition ${
                   tool === 'eraser'
                     ? 'bg-purple-500 text-white scale-105'
@@ -497,18 +477,35 @@ export default function DrawingGame() {
               </button>
             </div>
 
-            <div className="flex items-center gap-3 bg-gray-100 px-6 py-3 rounded-xl">
-              <span className="text-gray-700 font-semibold">Размер:</span>
-              <input
-                type="range"
-                min="1"
-                max="30"
-                value={brushSize}
-                onChange={(e) => setBrushSize(Number(e.target.value))}
-                className="w-32"
-              />
-              <span className="text-purple-600 font-bold text-lg">{brushSize}px</span>
-            </div>
+            {tool !== 'sticker' && (
+              <div className="flex items-center gap-3 bg-gray-100 px-6 py-3 rounded-xl">
+                <span className="text-gray-700 font-semibold">Размер:</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="30"
+                  value={brushSize}
+                  onChange={(e) => setBrushSize(Number(e.target.value))}
+                  className="w-32"
+                />
+                <span className="text-purple-600 font-bold text-lg">{brushSize}px</span>
+              </div>
+            )}
+
+            {tool === 'sticker' && selectedSticker && (
+              <div className="flex items-center gap-3 bg-pink-100 px-6 py-3 rounded-xl">
+                <span className="text-pink-700 font-semibold">Размер стикера:</span>
+                <input
+                  type="range"
+                  min="30"
+                  max="120"
+                  value={stickerSize}
+                  onChange={(e) => setStickerSize(Number(e.target.value))}
+                  className="w-32"
+                />
+                <span className="text-pink-600 font-bold text-2xl">{selectedSticker.emoji}</span>
+              </div>
+            )}
 
             <button
               onClick={clearCanvas}
@@ -537,10 +534,60 @@ export default function DrawingGame() {
             </button>
           </div>
 
+          {showStickers && (
+            <div className="mb-6 p-6 bg-gradient-to-r from-pink-100 via-purple-100 to-pink-100 rounded-2xl">
+              <h3 className="text-2xl font-bold text-pink-600 text-center mb-4">😺 КОТИКИ И СТИКЕРЫ 💖</h3>
+              
+              <div className="mb-6">
+                <h4 className="text-xl font-bold text-purple-600 mb-3 text-center">🐱 12 Котиков:</h4>
+                <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-3">
+                  {catStickers.map((sticker) => (
+                    <button
+                      key={sticker.id}
+                      onClick={() => {
+                        setSelectedSticker(sticker);
+                        setTool('sticker');
+                      }}
+                      className={`p-3 rounded-xl shadow-lg transition hover:scale-110 ${
+                        selectedSticker?.id === sticker.id
+                          ? 'bg-pink-400 ring-4 ring-pink-500 scale-110'
+                          : 'bg-white hover:bg-pink-50 border-2 border-pink-300 hover:border-pink-500'
+                      }`}
+                    >
+                      <div className="text-4xl">{sticker.emoji}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xl font-bold text-purple-600 mb-3 text-center">💖 Украшения:</h4>
+                <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-16 gap-3">
+                  {funStickers.map((sticker) => (
+                    <button
+                      key={sticker.id}
+                      onClick={() => {
+                        setSelectedSticker(sticker);
+                        setTool('sticker');
+                      }}
+                      className={`p-3 rounded-xl shadow-lg transition hover:scale-110 ${
+                        selectedSticker?.id === sticker.id
+                          ? 'bg-purple-400 ring-4 ring-purple-500 scale-110'
+                          : 'bg-white hover:bg-purple-50 border-2 border-purple-300 hover:border-purple-500'
+                      }`}
+                    >
+                      <div className="text-3xl">{sticker.emoji}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {showTemplates && (
             <div className="mb-6 p-6 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-2xl">
               <h3 className="text-2xl font-bold text-blue-600 text-center mb-4">Выбери раскраску:</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {templates.map((template) => (
                   <button
                     key={template.id}
@@ -555,27 +602,29 @@ export default function DrawingGame() {
             </div>
           )}
 
-          <div className="mt-6">
-            <p className="text-gray-700 font-semibold text-center mb-3">Выбери цвет:</p>
-            <div className="grid grid-cols-6 md:grid-cols-12 gap-3 max-w-4xl mx-auto">
-              {colors.map((c) => (
-                <button
-                  key={c.value}
-                  onClick={() => {
-                    setColor(c.value);
-                    setTool('brush');
-                  }}
-                  className={`w-12 h-12 rounded-full border-4 transition hover:scale-110 ${
-                    color === c.value && tool === 'brush'
-                      ? 'border-purple-600 scale-110 shadow-lg'
-                      : 'border-gray-300'
-                  }`}
-                  style={{ backgroundColor: c.value }}
-                  title={c.name}
-                />
-              ))}
+          {tool !== 'sticker' && (
+            <div className="mt-6">
+              <p className="text-gray-700 font-semibold text-center mb-3">Выбери цвет:</p>
+              <div className="grid grid-cols-6 md:grid-cols-12 gap-3 max-w-4xl mx-auto">
+                {colors.map((c) => (
+                  <button
+                    key={c.value}
+                    onClick={() => {
+                      setColor(c.value);
+                      setTool('brush');
+                    }}
+                    className={`w-12 h-12 rounded-full border-4 transition hover:scale-110 ${
+                      color === c.value && tool === 'brush'
+                        ? 'border-purple-600 scale-110 shadow-lg'
+                        : 'border-gray-300'
+                    }`}
+                    style={{ backgroundColor: c.value }}
+                    title={c.name}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl p-4 flex justify-center">
@@ -590,16 +639,18 @@ export default function DrawingGame() {
             onTouchStart={startDrawing}
             onTouchMove={draw}
             onTouchEnd={stopDrawing}
-            className="border-4 border-purple-300 rounded-2xl cursor-crosshair touch-none"
+            className={`border-4 border-purple-300 rounded-2xl touch-none ${
+              tool === 'sticker' ? 'cursor-pointer' : 'cursor-crosshair'
+            }`}
             style={{ maxWidth: '100%', height: 'auto' }}
           />
         </div>
 
         <div className="mt-6 bg-white/70 backdrop-blur-sm px-6 py-4 rounded-xl text-center">
           <p className="text-purple-600 font-semibold text-lg">
-            💡 Выбери готовую раскраску или рисуй сама!
+            💡 Нажми "😺 СТИКЕРЫ КОТИКОВ" и тыкай на холст чтобы добавить стикеры!
             <br />
-            Используй "ИИ Раскраска" для автоматического раскрашивания! 🎨✨
+            12 котиков + сердечки, звёздочки, цветочки! 🎨✨💖
           </p>
         </div>
       </div>
