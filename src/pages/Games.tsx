@@ -27,6 +27,7 @@ import AnimalSoundsGame from '@/components/AnimalSoundsGame';
 import FindOddGame from '@/components/FindOddGame';
 import SizeCompareGame from '@/components/SizeCompareGame';
 import HideSeekGame from '@/components/HideSeekGame';
+import BeautySalonGame from '@/components/BeautySalonGame';
 import AdminPanel from '@/components/AdminPanel';
 import { AdminProvider } from '@/contexts/AdminContext';
 import Icon from '@/components/ui/icon';
@@ -72,6 +73,7 @@ const games: GameInfo[] = [
   { id: 'animals', title: 'Найди пару', description: 'Найди одинаковых животных!', emoji: '🐾', component: AnimalMatchGame, category: 'kids', featured: true, isKids: true },
   { id: 'colors', title: 'Учим цвета', description: 'Изучаем цвета!', emoji: '🌈', component: ColorsGame, category: 'kids', featured: true, isKids: true },
   { id: 'puzzle-kids', title: 'Пазлы', description: 'Собери картинку!', emoji: '🧩', component: PuzzleKidsGame, category: 'kids', featured: true, isKids: true },
+  { id: 'beauty-salon', title: 'Салон красоты', description: 'Создай свой образ!', emoji: '💅', component: BeautySalonGame, category: 'kids', featured: true, isKids: true },
   { id: 'animal-sounds', title: 'Угадай кто говорит', description: 'Звуки животных!', emoji: '🔊', component: AnimalSoundsGame, category: 'kids', featured: true, isKids: true },
   { id: 'find-odd', title: 'Найди лишнее', description: 'Что не похоже на другие?', emoji: '🔍', component: FindOddGame, category: 'kids', featured: true, isKids: true },
   { id: 'size-compare', title: 'Большой-Маленький', description: 'Сравниваем размеры!', emoji: '📏', component: SizeCompareGame, category: 'kids', featured: true, isKids: true },
@@ -133,10 +135,10 @@ export default function Games() {
               🎮 Игровая Аркада
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              27 полноценных игр для всех возрастов! 🚀
+              28 полноценных игр для всех возрастов! 🚀
             </p>
             <div className="flex justify-center gap-2 mt-3">
-              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold">👶 13 детских (4-5 лет)</span>
+              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold">👶 14 детских (4-5 лет)</span>
               <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-semibold">🎮 14 классика</span>
             </div>
             <p className="text-sm text-retro-orange/70 mt-2">

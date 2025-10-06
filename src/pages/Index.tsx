@@ -179,192 +179,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Other Games Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Roblox Card */}
-            <Card className="border-cyber-blue/30 bg-card/50 backdrop-blur-sm hover:bg-card/70 transition-all duration-300 hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="flex justify-center mb-4">
-                  <img 
-                    src="/img/7d3a1666-2f79-4b49-bfbd-d639a065f5a7.jpg" 
-                    alt="Roblox" 
-                    className="w-24 h-24 object-cover rounded-lg border-2 border-cyber-blue/50"
-                  />
-                </div>
-                <CardTitle className="font-orbitron text-2xl text-cyber-blue">
-                  ROBLOX
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="mb-6 text-sm md:text-base">
-                  Создаю уникальные возможности для твоих карт за звезды в Telegram! 
-                  Сделай свою игру неповторимой! 🌟
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
-                  <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" className="border-cyber-blue text-cyber-blue hover:bg-cyber-blue hover:text-black w-full sm:w-auto">
-                      Узнать больше
-                    </Button>
-                  </a>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="bg-green-600 hover:bg-green-700 text-white font-bold w-full sm:w-auto">
-                        🎁 БЕСПЛАТНО
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-md max-w-[95vw] mx-2">
-                      <DialogHeader>
-                        <DialogTitle className="font-orbitron text-center text-lg sm:text-xl">
-                          🎁 Бесплатная услуга для ROBLOX
-                        </DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-4 mt-4">
-                        <p className="text-center text-sm leading-relaxed">
-                          Вы можете бесплатно получить услугу для ROBLOX! 
-                          Для этого введите ключ ниже.
-                        </p>
-                        <div className="text-center">
-                          <a href="https://go.linkify.ru/26Wt" target="_blank" rel="noopener noreferrer">
-                            <Button variant="outline" className="mb-4">
-                              🔑 Получить ключ
-                            </Button>
-                          </a>
-                        </div>
-                        <div className="space-y-3">
-                          <label className="text-sm font-medium">Введите ключ:</label>
-                          <input 
-                            type="text"
-                            placeholder="Введите ключ здесь..."
-                            className="w-full px-3 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-                            id="keyInput"
-                          />
-                          <Button 
-                            className="w-full mb-3"
-                            onClick={() => {
-                              const input = document.getElementById('keyInput') as HTMLInputElement;
-                              if (input?.value === 'bear') {
-                                // Открыть окно успеха
-                                const dialog = document.querySelector('[data-dialog="success"]') as HTMLElement;
-                                if (dialog) {
-                                  dialog.click();
-                                }
-                              } else {
-                                alert('Неправильный ключ!');
-                              }
-                            }}
-                          >
-                            Проверить ключ
-                          </Button>
-                          <div className="text-center">
-                            <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
-                              <Button variant="outline" className="w-full text-xs">
-                                🤔 Ничего не понимаю, помогите!
-                              </Button>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                  
-                  {/* Success Dialog */}
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <button data-dialog="success" className="hidden">Success</button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-md max-w-[95vw] mx-2">
-                      <DialogHeader>
-                        <DialogTitle className="font-orbitron text-center text-lg sm:text-xl text-green-600">
-                          🎉 Поздравляем!
-                        </DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-4 mt-4 text-center">
-                        <p className="text-sm leading-relaxed">
-                          Вы получили бесплатную услугу! Теперь перейдите ко мне в Telegram 
-                          и отправьте мне код ниже:
-                        </p>
-                        <div className="bg-muted p-4 rounded-lg">
-                          <code className="text-xs sm:text-sm font-mono break-all">
-                            12345Bear 555
-                          </code>
-                        </div>
-                        <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
-                          <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                            📱 Перейти в Telegram
-                          </Button>
-                        </a>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </CardContent>
-            </Card>
 
-            {/* Hyper Sandbox Card */}
-            <Card className="border-retro-orange/30 bg-card/50 backdrop-blur-sm hover:bg-card/70 transition-all duration-300 hover:scale-105">
-              <CardHeader className="text-center">
-                <div className="flex justify-center mb-4">
-                  <img 
-                    src="/img/2b0ea8c1-e005-4b3d-b050-08e89f8afaba.jpg" 
-                    alt="Hyper Sandbox" 
-                    className="w-24 h-24 object-cover rounded-lg border-2 border-retro-orange/50"
-                  />
-                </div>
-                <CardTitle className="font-orbitron text-2xl text-retro-orange">
-                  HYPER SANDBOX
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="mb-4">
-                  Расширь границы своей креативности! 🛠️
-                </p>
-                <a href="https://t.me/war_references" target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="border-retro-orange text-retro-orange hover:bg-retro-orange hover:text-black">
-                    Подробнее
-                  </Button>
-                </a>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Other Games Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto text-center">
-          <Card className="border-primary/30 bg-card/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="font-orbitron text-3xl text-primary">
-                ДРУГИЕ ИГРЫ
-              </CardTitle>
-              <CardDescription className="text-lg">
-                Договоримся о цене и воплотим твои мечты в реальность! 🤝
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="flex flex-col items-center p-4 rounded-lg bg-background/30 border border-primary/20">
-                  <Icon name="Shield" size={48} className="text-primary mb-2" />
-                  <h3 className="font-orbitron font-bold">Защита</h3>
-                  <p className="text-sm text-muted-foreground">Система защиты от блокировок</p>
-                </div>
-                <div className="flex flex-col items-center p-4 rounded-lg bg-background/30 border border-primary/20">
-                  <Icon name="Zap" size={48} className="text-retro-orange mb-2" />
-                  <h3 className="font-orbitron font-bold">Моды</h3>
-                  <p className="text-sm text-muted-foreground">Безопасное использование модов</p>
-                </div>
-                <div className="flex flex-col items-center p-4 rounded-lg bg-background/30 border border-primary/20">
-                  <Icon name="Gamepad2" size={48} className="text-cyber-blue mb-2" />
-                  <h3 className="font-orbitron font-bold">Поддержка</h3>
-                  <p className="text-sm text-muted-foreground">24/7 техническая поддержка</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
 
       {/* Games Section */}
       <section className="py-16 px-4 bg-gradient-to-b from-background to-pixel-dark/20">
@@ -379,25 +194,25 @@ export default function Index() {
           
           {/* Превью игр */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-8">
-            <div className="p-4 bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-blue-500/30 rounded-lg">
-              <div className="text-3xl mb-2">🚀</div>
-              <h3 className="font-semibold text-blue-400 mb-1">Космический Сбор</h3>
-              <p className="text-xs text-muted-foreground">Аркадная игра</p>
+            <div className="p-4 bg-gradient-to-br from-pink-900/20 to-purple-900/20 border border-pink-500/30 rounded-lg">
+              <div className="text-3xl mb-2">💅</div>
+              <h3 className="font-semibold text-pink-400 mb-1">Салон красоты</h3>
+              <p className="text-xs text-muted-foreground">Создавай образы</p>
             </div>
-            <div className="p-4 bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-500/30 rounded-lg">
-              <div className="text-3xl mb-2">🐔</div>
-              <h3 className="font-semibold text-yellow-400 mb-1">Куриная Империя</h3>
-              <p className="text-xs text-muted-foreground">Стратегический кликер</p>
+            <div className="p-4 bg-gradient-to-br from-purple-900/20 to-indigo-900/20 border border-purple-500/30 rounded-lg">
+              <div className="text-3xl mb-2">🔍</div>
+              <h3 className="font-semibold text-purple-400 mb-1">Найди лишнее</h3>
+              <p className="text-xs text-muted-foreground">Развивай логику</p>
             </div>
             <div className="p-4 bg-gradient-to-br from-green-900/20 to-teal-900/20 border border-green-500/30 rounded-lg">
-              <div className="text-3xl mb-2">🌍</div>
-              <h3 className="font-semibold text-green-400 mb-1">Исследователь</h3>
-              <p className="text-xs text-muted-foreground">2D приключения</p>
+              <div className="text-3xl mb-2">🎨</div>
+              <h3 className="font-semibold text-green-400 mb-1">Раскраски</h3>
+              <p className="text-xs text-muted-foreground">Рисуй и учись</p>
             </div>
-            <div className="p-4 bg-gradient-to-br from-red-900/20 to-pink-900/20 border border-red-500/30 rounded-lg">
-              <div className="text-3xl mb-2">⚔️</div>
-              <h3 className="font-semibold text-red-400 mb-1">Защитник</h3>
-              <p className="text-xs text-muted-foreground">Tower Defense</p>
+            <div className="p-4 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 border border-blue-500/30 rounded-lg">
+              <div className="text-3xl mb-2">🙈</div>
+              <h3 className="font-semibold text-blue-400 mb-1">Прятки</h3>
+              <p className="text-xs text-muted-foreground">Ищи зверюшек</p>
             </div>
           </div>
 
@@ -408,11 +223,11 @@ export default function Index() {
           </Link>
           
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
-            <div className="px-3 py-1 bg-green-600/20 text-green-400 rounded-full">
-              ✅ 5 уникальных игр
+            <div className="px-3 py-1 bg-pink-600/20 text-pink-400 rounded-full">
+              👶 14 детских игр
             </div>
             <div className="px-3 py-1 bg-blue-600/20 text-blue-400 rounded-full">
-              💬 Живой чат
+              🎮 14 классических
             </div>
             <div className="px-3 py-1 bg-purple-600/20 text-purple-400 rounded-full">
               🆓 Абсолютно бесплатно
