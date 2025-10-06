@@ -121,15 +121,6 @@ export default function Games() {
     <AdminProvider>
       <div className="min-h-screen bg-gradient-to-br from-pixel-dark via-gray-900 to-pixel-dark">
         <div className="container mx-auto px-4 py-8">
-          <div className="flex justify-center mb-6">
-            <Link 
-              to="/"
-              className="px-6 py-2 bg-gray-700/50 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2 border border-gray-600/50"
-            >
-              ← На главную
-            </Link>
-          </div>
-
           <div className="text-center mb-8">
             <h1 className="font-orbitron text-4xl md:text-5xl text-retro-orange mb-4">
               🎮 Игровая Аркада
