@@ -29,6 +29,7 @@ import SizeCompareGame from '@/components/SizeCompareGame';
 import HideSeekGame from '@/components/HideSeekGame';
 import BeautySalonGame from '@/components/BeautySalonGame';
 import CartoonGame from '@/components/CartoonGame';
+import BabyGame from '@/components/BabyGame';
 import AdminPanel from '@/components/AdminPanel';
 import { AdminProvider } from '@/contexts/AdminContext';
 import Icon from '@/components/ui/icon';
@@ -80,6 +81,7 @@ const games: GameInfo[] = [
   { id: 'find-odd', title: 'Найди лишнее', description: 'Что не похоже на другие?', emoji: '🔍', component: FindOddGame, category: 'kids', featured: true, isKids: true },
   { id: 'size-compare', title: 'Большой-Маленький', description: 'Сравниваем размеры!', emoji: '📏', component: SizeCompareGame, category: 'kids', featured: true, isKids: true },
   { id: 'hide-seek', title: 'Весёлые Прятки', description: 'Найди где спрятался!', emoji: '🙈', component: HideSeekGame, category: 'kids', featured: true, isKids: true },
+  { id: 'baby', title: 'ДЛЯ МАЛЫШЕЙ 1-3', description: 'Тыкай и радуйся! 🎈✨', emoji: '👶', component: BabyGame, category: 'kids', featured: true, isKids: true },
 ];
 
 export default function Games() {
@@ -128,10 +130,10 @@ export default function Games() {
               🎮 Игровая Аркада
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              29 полноценных игр для всех возрастов! 🚀
+              30 полноценных игр для всех возрастов! 🚀
             </p>
             <div className="flex justify-center gap-2 mt-3">
-              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold">👶 15 детских (4-5 лет)</span>
+              <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold">👶 16 детских (1-5 лет)</span>
               <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-semibold">🎮 14 классика</span>
             </div>
             <p className="text-sm text-retro-orange/70 mt-2">

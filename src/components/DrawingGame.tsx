@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 interface Template {
   id: string;
@@ -190,6 +190,25 @@ export default function DrawingGame() {
   const [showStickers, setShowStickers] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState<Sticker | null>(null);
   const [stickerSize, setStickerSize] = useState(60);
+  const [magicMode, setMagicMode] = useState(false);
+  const [sparkles, setSparkles] = useState<Array<{ id: number; x: number; y: number; emoji: string }>>([]);
+  const [rainbowTrail, setRainbowTrail] = useState(false);
+  const rainbowColorsRef = useRef(['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3']);
+  const colorIndexRef = useRef(0);
+
+  const createSparkle = useCallback((x: number, y: number) => {
+    const sparkleEmojis = ['✨', '⭐', '💫', '🌟', '💖', '💕'];
+    const newSparkle = {
+      id: Date.now() + Math.random(),
+      x,
+      y,
+      emoji: sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)]
+    };
+    setSparkles(prev => [...prev, newSparkle]);
+    setTimeout(() => {
+      setSparkles(prev => prev.filter(s => s.id !== newSparkle.id));
+    }, 1000);
+  }, []);
 
   const colors = [
     { name: 'Красный', value: '#FF0000' },
@@ -310,8 +329,17 @@ export default function DrawingGame() {
       ctx.strokeStyle = '#FFFFFF';
       ctx.lineWidth = brushSize * 3;
     } else {
-      ctx.strokeStyle = color;
+      if (rainbowTrail) {
+        ctx.strokeStyle = rainbowColorsRef.current[colorIndexRef.current];
+        colorIndexRef.current = (colorIndexRef.current + 1) % rainbowColorsRef.current.length;
+      } else {
+        ctx.strokeStyle = color;
+      }
       ctx.lineWidth = brushSize;
+      
+      if (magicMode && Math.random() > 0.7) {
+        createSparkle(x, y);
+      }
     }
 
     ctx.lineTo(x, y);
@@ -416,6 +444,33 @@ export default function DrawingGame() {
 
   return (
     <div className="relative w-full min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-6">
+      {sparkles.map((sparkle) => (
+        <div
+          key={sparkle.id}
+          className="absolute text-3xl pointer-events-none animate-bounce z-50"
+          style={{
+            left: `${sparkle.x}px`,
+            top: `${sparkle.y}px`,
+            animation: 'fadeOut 1s ease-out forwards'
+          }}
+        >
+          {sparkle.emoji}
+        </div>
+      ))}
+      
+      <style>{`
+        @keyframes fadeOut {
+          from {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+          to {
+            opacity: 0;
+            transform: scale(1.5) translateY(-30px);
+          }
+        }
+      `}</style>
+      
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-6">
           <h1 className="font-orbitron text-5xl text-purple-600 mb-2">🎨 Рисовалка</h1>
@@ -512,6 +567,37 @@ export default function DrawingGame() {
               className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition hover:scale-105"
             >
               🗑️ Очистить
+            </button>
+
+            <button
+              onClick={() => {
+                setMagicMode(!magicMode);
+                if (!magicMode) {
+                  for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                      createSparkle(Math.random() * window.innerWidth, Math.random() * 300);
+                    }, i * 100);
+                  }
+                }
+              }}
+              className={`px-6 py-3 rounded-xl font-bold transition hover:scale-105 ${
+                magicMode
+                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white animate-pulse'
+                  : 'bg-gradient-to-r from-yellow-300 to-orange-400 hover:from-yellow-400 hover:to-orange-500 text-white'
+              }`}
+            >
+              {magicMode ? '✨🪄 ВОЛШЕБСТВО!' : '🪄 Волшебная кисть'}
+            </button>
+
+            <button
+              onClick={() => setRainbowTrail(!rainbowTrail)}
+              className={`px-6 py-3 rounded-xl font-bold transition hover:scale-105 ${
+                rainbowTrail
+                  ? 'bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 text-white animate-pulse'
+                  : 'bg-gradient-to-r from-red-300 via-yellow-300 via-green-300 via-blue-300 to-purple-300 hover:opacity-90 text-white'
+              }`}
+            >
+              {rainbowTrail ? '🌈 РАДУГА!' : '🌈 Радужный след'}
             </button>
 
             <button
