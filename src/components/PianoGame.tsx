@@ -38,6 +38,13 @@ const SONGS = [
   { name: '🎵 Простая', notes: ['C', 'E', 'G', 'C2', 'G', 'E', 'C'], emoji: '🎵' },
   { name: '🎂 День рождения', notes: ['C', 'C', 'D', 'C', 'F', 'E', 'C', 'C', 'D', 'C', 'G', 'F'], emoji: '🎂' },
   { name: '💖 Сердечко', notes: ['E', 'D', 'C', 'D', 'E', 'E', 'E', 'D', 'D', 'D', 'E', 'G', 'G'], emoji: '💖' },
+  { name: '🐱 Котик идёт', notes: ['C', 'D', 'E', 'C', 'C', 'D', 'E', 'C', 'E', 'F', 'G', 'E', 'F', 'G'], emoji: '🐱' },
+  { name: '🌈 Радуга', notes: ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C2'], emoji: '🌈' },
+  { name: '🚂 Паровозик', notes: ['G', 'E', 'E', 'F', 'D', 'D', 'C', 'E', 'G', 'G', 'G'], emoji: '🚂' },
+  { name: '🦆 Утята', notes: ['C', 'D', 'E', 'F', 'G', 'G', 'A', 'A', 'A', 'A', 'G'], emoji: '🦆' },
+  { name: '🐻 Мишка косолапый', notes: ['E', 'D', 'C', 'D', 'E', 'E', 'E', 'D', 'D', 'E', 'D', 'C'], emoji: '🐻' },
+  { name: '🎃 Тили-тили', notes: ['E', 'G', 'A', 'G', 'E', 'C', 'E', 'G', 'E', 'D', 'C'], emoji: '🎃' },
+  { name: '🌟 Маленькая звезда', notes: ['C', 'G', 'A', 'G', 'F', 'E', 'D', 'C'], emoji: '🌟' },
 ];
 
 const DRUM_SOUNDS = [
@@ -47,6 +54,9 @@ const DRUM_SOUNDS = [
   { name: '💥 Хлопок', emoji: '💥', sound: 'clap' },
   { name: '✨ Тарелка', emoji: '✨', sound: 'cymbal' },
   { name: '🎺 Труба', emoji: '🎺', sound: 'horn' },
+  { name: '🎷 Саксофон', emoji: '🎷', sound: 'sax' },
+  { name: '🪘 Там-там', emoji: '🪘', sound: 'tam' },
+  { name: '🎤 Битбокс', emoji: '🎤', sound: 'beat' },
 ];
 
 export default function PianoGame() {
@@ -58,6 +68,8 @@ export default function PianoGame() {
   const [instrumentType, setInstrumentType] = useState<'piano' | 'synth' | 'bells' | 'guitar'>('piano');
   const [showDrums, setShowDrums] = useState(false);
   const [volume, setVolume] = useState(0.3);
+  const [tempo, setTempo] = useState(400);
+  const [autoPlay, setAutoPlay] = useState(false);
   const audioContextRef = useRef<AudioContext>();
 
   useEffect(() => {
@@ -207,6 +219,24 @@ export default function PianoGame() {
         gainNode.gain.setValueAtTime(volume, audioContextRef.current.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.6);
         break;
+      case 'sax':
+        oscillator.frequency.value = 300;
+        oscillator.type = 'sawtooth';
+        gainNode.gain.setValueAtTime(volume * 0.9, audioContextRef.current.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.7);
+        break;
+      case 'tam':
+        oscillator.frequency.value = 200;
+        oscillator.type = 'sine';
+        gainNode.gain.setValueAtTime(volume * 1.3, audioContextRef.current.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.8);
+        break;
+      case 'beat':
+        oscillator.frequency.value = 500;
+        oscillator.type = 'square';
+        gainNode.gain.setValueAtTime(volume * 0.7, audioContextRef.current.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.15);
+        break;
     }
 
     filter.type = 'lowpass';
@@ -248,7 +278,18 @@ export default function PianoGame() {
       const key = KEYS.find(k => k.note === note);
       if (key) {
         playNote(key.note, key.frequency, key.emoji);
-        await new Promise(resolve => setTimeout(resolve, 450));
+        await new Promise(resolve => setTimeout(resolve, tempo));
+      }
+    }
+  };
+
+  const playAllSongsLoop = async () => {
+    setAutoPlay(true);
+    while (autoPlay) {
+      for (const song of SONGS) {
+        if (!autoPlay) break;
+        await playSong(song);
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
     }
   };
@@ -304,6 +345,21 @@ export default function PianoGame() {
               className="w-24"
             />
             <span className="text-white font-bold">{Math.round(volume * 100)}%</span>
+          </div>
+
+          <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-xl">
+            <span className="text-white font-semibold text-sm">⏱️ Скорость:</span>
+            <input
+              type="range"
+              min="200"
+              max="800"
+              value={tempo}
+              onChange={(e) => setTempo(Number(e.target.value))}
+              className="w-24"
+            />
+            <span className="text-white font-bold text-xs">
+              {tempo < 350 ? '🐇 Быстро' : tempo < 550 ? '🐢 Нормально' : '🦥 Медленно'}
+            </span>
           </div>
 
           <button
@@ -381,7 +437,7 @@ export default function PianoGame() {
 
       <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl w-full max-w-6xl">
         <div className="flex justify-between items-center mb-3">
-          <p className="text-white font-bold text-lg">🎵 5 Песен для обучения:</p>
+          <p className="text-white font-bold text-lg">🎵 12 Песен для обучения!</p>
           <button
             onClick={() => setShowDrums(!showDrums)}
             className={`px-4 py-2 rounded-lg font-bold transition ${
@@ -395,7 +451,7 @@ export default function PianoGame() {
         </div>
 
         {!showDrums ? (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {SONGS.map((song, i) => (
               <button
                 key={i}
@@ -408,7 +464,7 @@ export default function PianoGame() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-9 gap-3">
             {DRUM_SOUNDS.map((drum, i) => (
               <button
                 key={i}
@@ -493,7 +549,9 @@ export default function PianoGame() {
           <br />
           <span className="text-purple-300">🖱️ Или нажимай на пианино мышкой!</span>
           <br />
-          <span className="text-pink-300">✨ 4 инструмента + 6 барабанов + 5 песен!</span>
+          <span className="text-pink-300">✨ 4 инструмента + 9 барабанов + 12 песен!</span>
+          <br />
+          <span className="text-green-300">🎵 Регулятор громкости и скорости!</span>
         </p>
       </div>
     </div>

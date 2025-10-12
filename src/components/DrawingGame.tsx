@@ -36,6 +36,33 @@ const catStickers: Sticker[] = [
   { id: 'cat12', emoji: '🐈‍⬛', name: 'Чёрный', size: 60 },
 ];
 
+const animalStickers: Sticker[] = [
+  { id: 'dog1', emoji: '🐶', name: 'Собака', size: 60 },
+  { id: 'dog2', emoji: '🐕', name: 'Пёсик', size: 60 },
+  { id: 'bear', emoji: '🐻', name: 'Медведь', size: 60 },
+  { id: 'panda', emoji: '🐼', name: 'Панда', size: 60 },
+  { id: 'rabbit', emoji: '🐰', name: 'Зайчик', size: 60 },
+  { id: 'fox', emoji: '🦊', name: 'Лисичка', size: 60 },
+  { id: 'pig', emoji: '🐷', name: 'Хрюшка', size: 60 },
+  { id: 'cow', emoji: '🐮', name: 'Коровка', size: 60 },
+  { id: 'frog', emoji: '🐸', name: 'Лягушка', size: 60 },
+  { id: 'chick', emoji: '🐥', name: 'Цыплёнок', size: 60 },
+  { id: 'bird', emoji: '🐦', name: 'Птичка', size: 60 },
+  { id: 'duck', emoji: '🦆', name: 'Уточка', size: 60 },
+  { id: 'owl', emoji: '🦉', name: 'Сова', size: 60 },
+  { id: 'penguin', emoji: '🐧', name: 'Пингвин', size: 60 },
+  { id: 'koala', emoji: '🐨', name: 'Коала', size: 60 },
+  { id: 'lion', emoji: '🦁', name: 'Львёнок', size: 60 },
+  { id: 'tiger', emoji: '🐯', name: 'Тигрёнок', size: 60 },
+  { id: 'monkey', emoji: '🐵', name: 'Обезьянка', size: 60 },
+  { id: 'elephant', emoji: '🐘', name: 'Слоник', size: 60 },
+  { id: 'giraffe', emoji: '🦒', name: 'Жираф', size: 60 },
+  { id: 'zebra', emoji: '🦓', name: 'Зебра', size: 60 },
+  { id: 'unicorn', emoji: '🦄', name: 'Единорог', size: 60 },
+  { id: 'horse', emoji: '🐴', name: 'Лошадка', size: 60 },
+  { id: 'dino', emoji: '🦕', name: 'Динозавр', size: 60 },
+];
+
 const funStickers: Sticker[] = [
   { id: 'heart1', emoji: '💖', name: 'Сердце', size: 50 },
   { id: 'heart2', emoji: '💕', name: 'Два сердца', size: 50 },
@@ -53,6 +80,10 @@ const funStickers: Sticker[] = [
   { id: 'butterfly', emoji: '🦋', name: 'Бабочка', size: 50 },
   { id: 'sparkle', emoji: '🎀', name: 'Бантик', size: 50 },
   { id: 'crown', emoji: '👑', name: 'Корона', size: 50 },
+  { id: 'sun', emoji: '☀️', name: 'Солнышко', size: 50 },
+  { id: 'moon', emoji: '🌙', name: 'Луна', size: 50 },
+  { id: 'cloud', emoji: '☁️', name: 'Облачко', size: 50 },
+  { id: 'fire', emoji: '🔥', name: 'Огонь', size: 50 },
 ];
 
 const stamps: Stamp[] = [
@@ -199,6 +230,7 @@ export default function DrawingGame() {
   const [isAutoColoring, setIsAutoColoring] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const [showStickers, setShowStickers] = useState(false);
+  const [showAnimals, setShowAnimals] = useState(false);
   const [showStamps, setShowStamps] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState<Sticker | null>(null);
   const [selectedStamp, setSelectedStamp] = useState<Stamp | null>(null);
@@ -642,6 +674,7 @@ export default function DrawingGame() {
                 setShowStickers(!showStickers);
                 setShowTemplates(false);
                 setShowStamps(false);
+                setShowAnimals(false);
               }}
               className={`px-5 py-2.5 rounded-xl font-bold text-lg transition hover:scale-105 ${
                 showStickers
@@ -654,9 +687,26 @@ export default function DrawingGame() {
 
             <button
               onClick={() => {
+                setShowAnimals(!showAnimals);
+                setShowTemplates(false);
+                setShowStickers(false);
+                setShowStamps(false);
+              }}
+              className={`px-5 py-2.5 rounded-xl font-bold text-lg transition hover:scale-105 ${
+                showAnimals
+                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white'
+                  : 'bg-gradient-to-r from-orange-400 to-amber-400 hover:from-orange-500 hover:to-amber-500 text-white'
+              }`}
+            >
+              🦁 {showAnimals ? 'Скрыть' : '24 ЗВЕРЮШКИ'}
+            </button>
+
+            <button
+              onClick={() => {
                 setShowStamps(!showStamps);
                 setShowTemplates(false);
                 setShowStickers(false);
+                setShowAnimals(false);
               }}
               className={`px-5 py-2.5 rounded-xl font-bold text-lg transition hover:scale-105 ${
                 showStamps
@@ -862,7 +912,7 @@ export default function DrawingGame() {
 
           {showStickers && (
             <div className="mb-6 p-6 bg-gradient-to-r from-pink-100 via-purple-100 to-pink-100 rounded-2xl">
-              <h3 className="text-2xl font-bold text-pink-600 text-center mb-4">😺 28 СТИКЕРОВ!</h3>
+              <h3 className="text-2xl font-bold text-pink-600 text-center mb-4">😺 32 СТИКЕРА!</h3>
               
               <div className="mb-6">
                 <h4 className="text-xl font-bold text-purple-600 mb-3 text-center">🐱 12 Котиков:</h4>
@@ -889,8 +939,8 @@ export default function DrawingGame() {
               </div>
 
               <div>
-                <h4 className="text-xl font-bold text-purple-600 mb-3 text-center">💖 16 Украшений:</h4>
-                <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+                <h4 className="text-xl font-bold text-purple-600 mb-3 text-center">💖 20 Украшений:</h4>
+                <div className="grid grid-cols-5 md:grid-cols-10 gap-3">
                   {funStickers.map((sticker) => (
                     <button
                       key={sticker.id}
@@ -910,6 +960,34 @@ export default function DrawingGame() {
                     </button>
                   ))}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {showAnimals && (
+            <div className="mb-6 p-6 bg-gradient-to-r from-orange-100 via-yellow-100 to-orange-100 rounded-2xl">
+              <h3 className="text-2xl font-bold text-orange-600 text-center mb-4">🦁 24 ЗВЕРЮШКИ!</h3>
+              <p className="text-center text-orange-600 mb-4">Собачки, мишки, зайчики, единороги, динозавры!</p>
+              
+              <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-3">
+                {animalStickers.map((sticker) => (
+                  <button
+                    key={sticker.id}
+                    onClick={() => {
+                      setSelectedSticker(sticker);
+                      setSelectedStamp(null);
+                      setTool('sticker');
+                      playClickSound();
+                    }}
+                    className={`p-3 rounded-xl shadow-lg transition hover:scale-110 ${
+                      selectedSticker?.id === sticker.id && tool === 'sticker'
+                        ? 'bg-orange-400 ring-4 ring-orange-500 scale-110'
+                        : 'bg-white hover:bg-orange-50 border-2 border-orange-300 hover:border-orange-500'
+                    }`}
+                  >
+                    <div className="text-4xl">{sticker.emoji}</div>
+                  </button>
+                ))}
               </div>
             </div>
           )}
@@ -1009,7 +1087,9 @@ export default function DrawingGame() {
           <p className="text-purple-600 font-semibold text-lg">
             🎨 10+ ИНСТРУМЕНТОВ: Кисть, Спрей, Заливка, Волшебство, Радуга, Неон, Зеркало!
             <br />
-            😺 28 Стикеров + 🎨 12 Штампов + 📋 4 Раскраски! ✨💖
+            😺 32 Стикера + 🦁 24 Зверюшки + 🎨 12 Штампов + 📋 4 Раскраски! ✨💖
+            <br />
+            <span className="text-pink-500">ВСЕГО 68 СТИКЕРОВ!</span>
           </p>
         </div>
       </div>
