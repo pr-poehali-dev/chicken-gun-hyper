@@ -14,6 +14,13 @@ interface Sticker {
   size: number;
 }
 
+interface Stamp {
+  id: string;
+  emoji: string;
+  name: string;
+  size: number;
+}
+
 const catStickers: Sticker[] = [
   { id: 'cat1', emoji: '😺', name: 'Котик', size: 60 },
   { id: 'cat2', emoji: '😸', name: 'Улыбка', size: 60 },
@@ -46,6 +53,21 @@ const funStickers: Sticker[] = [
   { id: 'butterfly', emoji: '🦋', name: 'Бабочка', size: 50 },
   { id: 'sparkle', emoji: '🎀', name: 'Бантик', size: 50 },
   { id: 'crown', emoji: '👑', name: 'Корона', size: 50 },
+];
+
+const stamps: Stamp[] = [
+  { id: 'stamp1', emoji: '🐾', name: 'Лапки', size: 40 },
+  { id: 'stamp2', emoji: '👣', name: 'Следы', size: 40 },
+  { id: 'stamp3', emoji: '🍎', name: 'Яблоко', size: 45 },
+  { id: 'stamp4', emoji: '🍌', name: 'Банан', size: 45 },
+  { id: 'stamp5', emoji: '🍓', name: 'Клубника', size: 45 },
+  { id: 'stamp6', emoji: '🍉', name: 'Арбуз', size: 45 },
+  { id: 'stamp7', emoji: '🚗', name: 'Машинка', size: 45 },
+  { id: 'stamp8', emoji: '✈️', name: 'Самолёт', size: 45 },
+  { id: 'stamp9', emoji: '🚂', name: 'Поезд', size: 45 },
+  { id: 'stamp10', emoji: '🎁', name: 'Подарок', size: 45 },
+  { id: 'stamp11', emoji: '🎂', name: 'Торт', size: 45 },
+  { id: 'stamp12', emoji: '🍭', name: 'Конфета', size: 45 },
 ];
 
 const templates: Template[] = [
@@ -99,27 +121,20 @@ const templates: Template[] = [
     }
   },
   {
-    id: 'house',
-    name: 'Домик',
-    emoji: '🏠',
+    id: 'heart',
+    name: 'Сердечко',
+    emoji: '💖',
     draw: (ctx, w, h) => {
       const cx = w / 2, cy = h / 2;
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 3;
       
-      ctx.strokeRect(cx - 80, cy - 20, 160, 120);
-      
       ctx.beginPath();
-      ctx.moveTo(cx - 100, cy - 20);
-      ctx.lineTo(cx, cy - 100);
-      ctx.lineTo(cx + 100, cy - 20);
+      ctx.moveTo(cx, cy - 40);
+      ctx.bezierCurveTo(cx - 80, cy - 100, cx - 100, cy - 20, cx, cy + 60);
+      ctx.bezierCurveTo(cx + 100, cy - 20, cx + 80, cy - 100, cx, cy - 40);
       ctx.closePath();
       ctx.stroke();
-      
-      ctx.strokeRect(cx - 25, cy + 40, 50, 60);
-      
-      ctx.strokeRect(cx - 60, cy, 30, 30);
-      ctx.strokeRect(cx + 30, cy, 30, 30);
     }
   },
   {
@@ -148,33 +163,29 @@ const templates: Template[] = [
       ctx.moveTo(cx, cy + 25);
       ctx.lineTo(cx, cy + 120);
       ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.moveTo(cx, cy + 60);
-      ctx.bezierCurveTo(cx + 30, cy + 50, cx + 40, cy + 70, cx + 30, cy + 80);
-      ctx.stroke();
-      
-      ctx.beginPath();
-      ctx.moveTo(cx, cy + 80);
-      ctx.bezierCurveTo(cx - 30, cy + 70, cx - 40, cy + 90, cx - 30, cy + 100);
-      ctx.stroke();
     }
   },
   {
-    id: 'heart',
-    name: 'Сердечко',
-    emoji: '💖',
+    id: 'house',
+    name: 'Домик',
+    emoji: '🏠',
     draw: (ctx, w, h) => {
       const cx = w / 2, cy = h / 2;
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 3;
       
+      ctx.strokeRect(cx - 80, cy - 20, 160, 120);
+      
       ctx.beginPath();
-      ctx.moveTo(cx, cy - 40);
-      ctx.bezierCurveTo(cx - 80, cy - 100, cx - 100, cy - 20, cx, cy + 60);
-      ctx.bezierCurveTo(cx + 100, cy - 20, cx + 80, cy - 100, cx, cy - 40);
+      ctx.moveTo(cx - 100, cy - 20);
+      ctx.lineTo(cx, cy - 100);
+      ctx.lineTo(cx + 100, cy - 20);
       ctx.closePath();
       ctx.stroke();
+      
+      ctx.strokeRect(cx - 25, cy + 40, 50, 60);
+      ctx.strokeRect(cx - 60, cy, 30, 30);
+      ctx.strokeRect(cx + 30, cy, 30, 30);
     }
   }
 ];
@@ -184,31 +195,21 @@ export default function DrawingGame() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState('#FF0000');
   const [brushSize, setBrushSize] = useState(5);
-  const [tool, setTool] = useState<'brush' | 'eraser' | 'sticker'>('brush');
+  const [tool, setTool] = useState<'brush' | 'eraser' | 'sticker' | 'stamp' | 'fill' | 'spray'>('brush');
   const [isAutoColoring, setIsAutoColoring] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const [showStickers, setShowStickers] = useState(false);
+  const [showStamps, setShowStamps] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState<Sticker | null>(null);
+  const [selectedStamp, setSelectedStamp] = useState<Stamp | null>(null);
   const [stickerSize, setStickerSize] = useState(60);
   const [magicMode, setMagicMode] = useState(false);
   const [sparkles, setSparkles] = useState<Array<{ id: number; x: number; y: number; emoji: string }>>([]);
   const [rainbowTrail, setRainbowTrail] = useState(false);
+  const [neonMode, setNeonMode] = useState(false);
+  const [symmetryMode, setSymmetryMode] = useState(false);
   const rainbowColorsRef = useRef(['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3']);
   const colorIndexRef = useRef(0);
-
-  const createSparkle = useCallback((x: number, y: number) => {
-    const sparkleEmojis = ['✨', '⭐', '💫', '🌟', '💖', '💕'];
-    const newSparkle = {
-      id: Date.now() + Math.random(),
-      x,
-      y,
-      emoji: sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)]
-    };
-    setSparkles(prev => [...prev, newSparkle]);
-    setTimeout(() => {
-      setSparkles(prev => prev.filter(s => s.id !== newSparkle.id));
-    }, 1000);
-  }, []);
 
   const colors = [
     { name: 'Красный', value: '#FF0000' },
@@ -225,6 +226,42 @@ export default function DrawingGame() {
     { name: 'Салатовый', value: '#90EE90' },
   ];
 
+  const playDrawSound = useCallback(() => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 800 + Math.random() * 400;
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+  }, []);
+
+  const playClickSound = useCallback(() => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 1000;
+    oscillator.type = 'square';
+    
+    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.05);
+  }, []);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -238,8 +275,69 @@ export default function DrawingGame() {
     ctx.lineJoin = 'round';
   }, []);
 
+  const createSparkle = useCallback((x: number, y: number) => {
+    const sparkleEmojis = ['✨', '⭐', '💫', '🌟', '💖', '💕'];
+    const newSparkle = {
+      id: Date.now() + Math.random(),
+      x,
+      y,
+      emoji: sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)]
+    };
+    setSparkles(prev => [...prev, newSparkle]);
+    setTimeout(() => {
+      setSparkles(prev => prev.filter(s => s.id !== newSparkle.id));
+    }, 1000);
+  }, []);
+
+  const floodFill = (startX: number, startY: number, fillColor: string) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    
+    const startPos = (startY * canvas.width + startX) * 4;
+    const startR = data[startPos];
+    const startG = data[startPos + 1];
+    const startB = data[startPos + 2];
+    
+    const fillRgb = {
+      r: parseInt(fillColor.slice(1, 3), 16),
+      g: parseInt(fillColor.slice(3, 5), 16),
+      b: parseInt(fillColor.slice(5, 7), 16)
+    };
+    
+    if (startR === fillRgb.r && startG === fillRgb.g && startB === fillRgb.b) return;
+    
+    const stack: Array<[number, number]> = [[startX, startY]];
+    
+    while (stack.length > 0) {
+      const [x, y] = stack.pop()!;
+      if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) continue;
+      
+      const pos = (y * canvas.width + x) * 4;
+      
+      if (data[pos] === startR && data[pos + 1] === startG && data[pos + 2] === startB) {
+        data[pos] = fillRgb.r;
+        data[pos + 1] = fillRgb.g;
+        data[pos + 2] = fillRgb.b;
+        data[pos + 3] = 255;
+        
+        stack.push([x + 1, y]);
+        stack.push([x - 1, y]);
+        stack.push([x, y + 1]);
+        stack.push([x, y - 1]);
+      }
+    }
+    
+    ctx.putImageData(imageData, 0, 0);
+  };
+
   const placeSticker = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (!selectedSticker) return;
+    const sticker = tool === 'sticker' ? selectedSticker : selectedStamp;
+    if (!sticker) return;
     
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -265,12 +363,34 @@ export default function DrawingGame() {
     ctx.font = `${stickerSize}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(selectedSticker.emoji, x, y);
+    ctx.fillText(sticker.emoji, x, y);
+    
+    playClickSound();
+    createSparkle(e.clientX || (e as TouchEvent).touches[0].clientX, e.clientY || (e as TouchEvent).touches[0].clientY);
   };
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (tool === 'sticker') {
+    if (tool === 'sticker' || tool === 'stamp') {
       placeSticker(e);
+      return;
+    }
+    
+    if (tool === 'fill') {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      let x, y;
+      
+      if ('touches' in e) {
+        x = Math.floor((e.touches[0].clientX - rect.left) * (canvas.width / rect.width));
+        y = Math.floor((e.touches[0].clientY - rect.top) * (canvas.height / rect.height));
+      } else {
+        x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width));
+        y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height));
+      }
+      
+      floodFill(x, y, color);
+      playClickSound();
       return;
     }
     
@@ -301,7 +421,7 @@ export default function DrawingGame() {
   };
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || tool === 'sticker') return;
+    if (!isDrawing || tool === 'sticker' || tool === 'stamp' || tool === 'fill') return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -325,25 +445,59 @@ export default function DrawingGame() {
     x *= scale;
     y *= scale;
 
-    if (tool === 'eraser') {
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = brushSize * 3;
-    } else {
-      if (rainbowTrail) {
-        ctx.strokeStyle = rainbowColorsRef.current[colorIndexRef.current];
-        colorIndexRef.current = (colorIndexRef.current + 1) % rainbowColorsRef.current.length;
-      } else {
-        ctx.strokeStyle = color;
+    if (tool === 'spray') {
+      for (let i = 0; i < 20; i++) {
+        const offsetX = (Math.random() - 0.5) * brushSize * 4;
+        const offsetY = (Math.random() - 0.5) * brushSize * 4;
+        ctx.fillStyle = rainbowTrail 
+          ? rainbowColorsRef.current[Math.floor(Math.random() * rainbowColorsRef.current.length)]
+          : color;
+        ctx.fillRect(x + offsetX, y + offsetY, 2, 2);
       }
-      ctx.lineWidth = brushSize;
+      
+      if (Math.random() > 0.8) {
+        playDrawSound();
+      }
+    } else {
+      if (tool === 'eraser') {
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = brushSize * 3;
+      } else {
+        if (rainbowTrail) {
+          ctx.strokeStyle = rainbowColorsRef.current[colorIndexRef.current];
+          colorIndexRef.current = (colorIndexRef.current + 1) % rainbowColorsRef.current.length;
+        } else {
+          ctx.strokeStyle = color;
+        }
+        
+        if (neonMode) {
+          ctx.shadowBlur = 20;
+          ctx.shadowColor = color;
+        } else {
+          ctx.shadowBlur = 0;
+        }
+        
+        ctx.lineWidth = brushSize;
+        
+        if (Math.random() > 0.95) {
+          playDrawSound();
+        }
+      }
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      
+      if (symmetryMode) {
+        const centerX = canvas.width / 2;
+        const mirrorX = centerX + (centerX - x);
+        ctx.lineTo(mirrorX, y);
+        ctx.stroke();
+      }
       
       if (magicMode && Math.random() > 0.7) {
-        createSparkle(x, y);
+        createSparkle(e.clientX || (e as TouchEvent).touches[0].clientX, e.clientY || (e as TouchEvent).touches[0].clientY);
       }
     }
-
-    ctx.lineTo(x, y);
-    ctx.stroke();
   };
 
   const stopDrawing = () => {
@@ -362,6 +516,7 @@ export default function DrawingGame() {
     if (!ctx) return;
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    playClickSound();
   };
 
   const downloadDrawing = () => {
@@ -372,6 +527,7 @@ export default function DrawingGame() {
     link.download = `рисунок_${Date.now()}.png`;
     link.href = url;
     link.click();
+    playClickSound();
   };
 
   const loadTemplate = (template: Template) => {
@@ -385,6 +541,7 @@ export default function DrawingGame() {
     
     template.draw(ctx, canvas.width, canvas.height);
     setShowTemplates(false);
+    playClickSound();
   };
 
   const autoColorDrawing = () => {
@@ -439,11 +596,12 @@ export default function DrawingGame() {
     }
 
     ctx.putImageData(imageData, 0, 0);
+    playClickSound();
     setTimeout(() => setIsAutoColoring(false), 500);
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-6">
+    <div className="relative w-full min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-6 overflow-hidden">
       {sparkles.map((sparkle) => (
         <div
           key={sparkle.id}
@@ -473,43 +631,61 @@ export default function DrawingGame() {
       
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-6">
-          <h1 className="font-orbitron text-5xl text-purple-600 mb-2">🎨 Рисовалка</h1>
-          <p className="text-purple-500 text-lg">Рисуй кисточкой или добавляй стикеры котиков! 😺</p>
+          <h1 className="font-orbitron text-5xl text-purple-600 mb-2">🎨 Рисовалка СУПЕР</h1>
+          <p className="text-purple-500 text-lg">10+ инструментов! Рисуй, украшай, твори! ✨🖌️</p>
         </div>
 
         <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 mb-6">
-          <div className="flex flex-wrap gap-4 justify-center items-center mb-6">
+          <div className="flex flex-wrap gap-3 justify-center items-center mb-6">
             <button
               onClick={() => {
                 setShowStickers(!showStickers);
                 setShowTemplates(false);
+                setShowStamps(false);
               }}
-              className={`px-6 py-3 rounded-xl font-bold text-xl transition hover:scale-105 ${
+              className={`px-5 py-2.5 rounded-xl font-bold text-lg transition hover:scale-105 ${
                 showStickers
                   ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
                   : 'bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white'
               }`}
             >
-              😺 {showStickers ? 'Скрыть стикеры' : 'СТИКЕРЫ КОТИКОВ'}
+              😺 {showStickers ? 'Скрыть' : 'КОТИКИ'}
+            </button>
+
+            <button
+              onClick={() => {
+                setShowStamps(!showStamps);
+                setShowTemplates(false);
+                setShowStickers(false);
+              }}
+              className={`px-5 py-2.5 rounded-xl font-bold text-lg transition hover:scale-105 ${
+                showStamps
+                  ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white'
+                  : 'bg-gradient-to-r from-green-400 to-teal-400 hover:from-green-500 hover:to-teal-500 text-white'
+              }`}
+            >
+              🎨 {showStamps ? 'Скрыть' : 'ШТАМПЫ'}
             </button>
 
             <button
               onClick={() => {
                 setShowTemplates(!showTemplates);
                 setShowStickers(false);
+                setShowStamps(false);
               }}
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl font-bold transition hover:scale-105"
+              className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white rounded-xl font-bold transition hover:scale-105"
             >
-              📋 {showTemplates ? 'Скрыть раскраски' : 'Раскраски'}
+              📋 {showTemplates ? 'Скрыть' : 'Раскраски'}
             </button>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap justify-center">
               <button
                 onClick={() => {
                   setTool('brush');
                   setSelectedSticker(null);
+                  setSelectedStamp(null);
                 }}
-                className={`px-6 py-3 rounded-xl font-bold transition ${
+                className={`px-4 py-2 rounded-xl font-bold transition text-sm ${
                   tool === 'brush'
                     ? 'bg-purple-500 text-white scale-105'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -517,14 +693,46 @@ export default function DrawingGame() {
               >
                 🖌️ Кисть
               </button>
+              
+              <button
+                onClick={() => {
+                  setTool('spray');
+                  setSelectedSticker(null);
+                  setSelectedStamp(null);
+                }}
+                className={`px-4 py-2 rounded-xl font-bold transition text-sm ${
+                  tool === 'spray'
+                    ? 'bg-blue-500 text-white scale-105'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                💨 Спрей
+              </button>
+              
+              <button
+                onClick={() => {
+                  setTool('fill');
+                  setSelectedSticker(null);
+                  setSelectedStamp(null);
+                }}
+                className={`px-4 py-2 rounded-xl font-bold transition text-sm ${
+                  tool === 'fill'
+                    ? 'bg-orange-500 text-white scale-105'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                🪣 Заливка
+              </button>
+              
               <button
                 onClick={() => {
                   setTool('eraser');
                   setSelectedSticker(null);
+                  setSelectedStamp(null);
                 }}
-                className={`px-6 py-3 rounded-xl font-bold transition ${
+                className={`px-4 py-2 rounded-xl font-bold transition text-sm ${
                   tool === 'eraser'
-                    ? 'bg-purple-500 text-white scale-105'
+                    ? 'bg-red-500 text-white scale-105'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -532,46 +740,40 @@ export default function DrawingGame() {
               </button>
             </div>
 
-            {tool !== 'sticker' && (
-              <div className="flex items-center gap-3 bg-gray-100 px-6 py-3 rounded-xl">
-                <span className="text-gray-700 font-semibold">Размер:</span>
+            {(tool === 'brush' || tool === 'spray' || tool === 'eraser') && (
+              <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-xl">
+                <span className="text-gray-700 font-semibold text-sm">Размер:</span>
                 <input
                   type="range"
                   min="1"
                   max="30"
                   value={brushSize}
                   onChange={(e) => setBrushSize(Number(e.target.value))}
-                  className="w-32"
+                  className="w-24"
                 />
-                <span className="text-purple-600 font-bold text-lg">{brushSize}px</span>
+                <span className="text-purple-600 font-bold">{brushSize}</span>
               </div>
             )}
 
-            {tool === 'sticker' && selectedSticker && (
-              <div className="flex items-center gap-3 bg-pink-100 px-6 py-3 rounded-xl">
-                <span className="text-pink-700 font-semibold">Размер стикера:</span>
+            {(tool === 'sticker' || tool === 'stamp') && (selectedSticker || selectedStamp) && (
+              <div className="flex items-center gap-2 bg-pink-100 px-4 py-2 rounded-xl">
+                <span className="text-pink-700 font-semibold text-sm">Размер:</span>
                 <input
                   type="range"
                   min="30"
                   max="120"
                   value={stickerSize}
                   onChange={(e) => setStickerSize(Number(e.target.value))}
-                  className="w-32"
+                  className="w-24"
                 />
-                <span className="text-pink-600 font-bold text-2xl">{selectedSticker.emoji}</span>
+                <span className="text-pink-600 font-bold text-2xl">{(selectedSticker || selectedStamp)?.emoji}</span>
               </div>
             )}
 
             <button
-              onClick={clearCanvas}
-              className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition hover:scale-105"
-            >
-              🗑️ Очистить
-            </button>
-
-            <button
               onClick={() => {
                 setMagicMode(!magicMode);
+                playClickSound();
                 if (!magicMode) {
                   for (let i = 0; i < 10; i++) {
                     setTimeout(() => {
@@ -580,49 +782,87 @@ export default function DrawingGame() {
                   }
                 }
               }}
-              className={`px-6 py-3 rounded-xl font-bold transition hover:scale-105 ${
+              className={`px-5 py-2.5 rounded-xl font-bold transition hover:scale-105 text-sm ${
                 magicMode
                   ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white animate-pulse'
                   : 'bg-gradient-to-r from-yellow-300 to-orange-400 hover:from-yellow-400 hover:to-orange-500 text-white'
               }`}
             >
-              {magicMode ? '✨🪄 ВОЛШЕБСТВО!' : '🪄 Волшебная кисть'}
+              {magicMode ? '✨ ВОЛШЕБСТВО' : '🪄 Волшебство'}
             </button>
 
             <button
-              onClick={() => setRainbowTrail(!rainbowTrail)}
-              className={`px-6 py-3 rounded-xl font-bold transition hover:scale-105 ${
+              onClick={() => {
+                setRainbowTrail(!rainbowTrail);
+                playClickSound();
+              }}
+              className={`px-5 py-2.5 rounded-xl font-bold transition hover:scale-105 text-sm ${
                 rainbowTrail
                   ? 'bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 text-white animate-pulse'
                   : 'bg-gradient-to-r from-red-300 via-yellow-300 via-green-300 via-blue-300 to-purple-300 hover:opacity-90 text-white'
               }`}
             >
-              {rainbowTrail ? '🌈 РАДУГА!' : '🌈 Радужный след'}
+              {rainbowTrail ? '🌈 РАДУГА' : '🌈 Радуга'}
+            </button>
+
+            <button
+              onClick={() => {
+                setNeonMode(!neonMode);
+                playClickSound();
+              }}
+              className={`px-5 py-2.5 rounded-xl font-bold transition hover:scale-105 text-sm ${
+                neonMode
+                  ? 'bg-gradient-to-r from-pink-500 to-cyan-500 text-white animate-pulse'
+                  : 'bg-gradient-to-r from-pink-400 to-cyan-400 hover:from-pink-500 hover:to-cyan-500 text-white'
+              }`}
+            >
+              {neonMode ? '💡 НЕОН' : '💡 Неон'}
+            </button>
+
+            <button
+              onClick={() => {
+                setSymmetryMode(!symmetryMode);
+                playClickSound();
+              }}
+              className={`px-5 py-2.5 rounded-xl font-bold transition hover:scale-105 text-sm ${
+                symmetryMode
+                  ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white animate-pulse'
+                  : 'bg-gradient-to-r from-indigo-400 to-purple-400 hover:from-indigo-500 hover:to-purple-500 text-white'
+              }`}
+            >
+              {symmetryMode ? '🪞 ЗЕРКАЛО' : '🪞 Зеркало'}
+            </button>
+
+            <button
+              onClick={clearCanvas}
+              className="px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition hover:scale-105 text-sm"
+            >
+              🗑️ Очистить
             </button>
 
             <button
               onClick={autoColorDrawing}
               disabled={isAutoColoring}
-              className={`px-6 py-3 rounded-xl font-bold transition hover:scale-105 ${
+              className={`px-5 py-2.5 rounded-xl font-bold transition hover:scale-105 text-sm ${
                 isAutoColoring
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white'
               }`}
             >
-              {isAutoColoring ? '✨ Раскрашиваю...' : '✨ ИИ Раскраска'}
+              {isAutoColoring ? '✨ Работаю...' : '✨ ИИ'}
             </button>
 
             <button
               onClick={downloadDrawing}
-              className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold transition hover:scale-105"
+              className="px-5 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold transition hover:scale-105 text-sm"
             >
-              💾 Скачать
+              💾 Сохранить
             </button>
           </div>
 
           {showStickers && (
             <div className="mb-6 p-6 bg-gradient-to-r from-pink-100 via-purple-100 to-pink-100 rounded-2xl">
-              <h3 className="text-2xl font-bold text-pink-600 text-center mb-4">😺 КОТИКИ И СТИКЕРЫ 💖</h3>
+              <h3 className="text-2xl font-bold text-pink-600 text-center mb-4">😺 28 СТИКЕРОВ!</h3>
               
               <div className="mb-6">
                 <h4 className="text-xl font-bold text-purple-600 mb-3 text-center">🐱 12 Котиков:</h4>
@@ -632,10 +872,12 @@ export default function DrawingGame() {
                       key={sticker.id}
                       onClick={() => {
                         setSelectedSticker(sticker);
+                        setSelectedStamp(null);
                         setTool('sticker');
+                        playClickSound();
                       }}
                       className={`p-3 rounded-xl shadow-lg transition hover:scale-110 ${
-                        selectedSticker?.id === sticker.id
+                        selectedSticker?.id === sticker.id && tool === 'sticker'
                           ? 'bg-pink-400 ring-4 ring-pink-500 scale-110'
                           : 'bg-white hover:bg-pink-50 border-2 border-pink-300 hover:border-pink-500'
                       }`}
@@ -647,17 +889,19 @@ export default function DrawingGame() {
               </div>
 
               <div>
-                <h4 className="text-xl font-bold text-purple-600 mb-3 text-center">💖 Украшения:</h4>
-                <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-16 gap-3">
+                <h4 className="text-xl font-bold text-purple-600 mb-3 text-center">💖 16 Украшений:</h4>
+                <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
                   {funStickers.map((sticker) => (
                     <button
                       key={sticker.id}
                       onClick={() => {
                         setSelectedSticker(sticker);
+                        setSelectedStamp(null);
                         setTool('sticker');
+                        playClickSound();
                       }}
                       className={`p-3 rounded-xl shadow-lg transition hover:scale-110 ${
-                        selectedSticker?.id === sticker.id
+                        selectedSticker?.id === sticker.id && tool === 'sticker'
                           ? 'bg-purple-400 ring-4 ring-purple-500 scale-110'
                           : 'bg-white hover:bg-purple-50 border-2 border-purple-300 hover:border-purple-500'
                       }`}
@@ -670,9 +914,37 @@ export default function DrawingGame() {
             </div>
           )}
 
+          {showStamps && (
+            <div className="mb-6 p-6 bg-gradient-to-r from-green-100 via-teal-100 to-green-100 rounded-2xl">
+              <h3 className="text-2xl font-bold text-green-600 text-center mb-4">🎨 12 ШТАМПОВ!</h3>
+              <p className="text-center text-green-600 mb-4">Лапки, фрукты, машинки, сладости!</p>
+              
+              <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-3">
+                {stamps.map((stamp) => (
+                  <button
+                    key={stamp.id}
+                    onClick={() => {
+                      setSelectedStamp(stamp);
+                      setSelectedSticker(null);
+                      setTool('stamp');
+                      playClickSound();
+                    }}
+                    className={`p-3 rounded-xl shadow-lg transition hover:scale-110 ${
+                      selectedStamp?.id === stamp.id && tool === 'stamp'
+                        ? 'bg-teal-400 ring-4 ring-teal-500 scale-110'
+                        : 'bg-white hover:bg-teal-50 border-2 border-teal-300 hover:border-teal-500'
+                    }`}
+                  >
+                    <div className="text-3xl">{stamp.emoji}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {showTemplates && (
             <div className="mb-6 p-6 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-2xl">
-              <h3 className="text-2xl font-bold text-blue-600 text-center mb-4">Выбери раскраску:</h3>
+              <h3 className="text-2xl font-bold text-blue-600 text-center mb-4">📋 4 Раскраски:</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {templates.map((template) => (
                   <button
@@ -688,7 +960,7 @@ export default function DrawingGame() {
             </div>
           )}
 
-          {tool !== 'sticker' && (
+          {(tool !== 'sticker' && tool !== 'stamp' && tool !== 'fill') && (
             <div className="mt-6">
               <p className="text-gray-700 font-semibold text-center mb-3">Выбери цвет:</p>
               <div className="grid grid-cols-6 md:grid-cols-12 gap-3 max-w-4xl mx-auto">
@@ -697,11 +969,12 @@ export default function DrawingGame() {
                     key={c.value}
                     onClick={() => {
                       setColor(c.value);
-                      setTool('brush');
+                      if (tool === 'eraser') setTool('brush');
+                      playClickSound();
                     }}
                     className={`w-12 h-12 rounded-full border-4 transition hover:scale-110 ${
-                      color === c.value && tool === 'brush'
-                        ? 'border-purple-600 scale-110 shadow-lg'
+                      color === c.value && (tool === 'brush' || tool === 'spray' || tool === 'fill')
+                        ? 'border-purple-600 scale-110 shadow-lg ring-4 ring-purple-300'
                         : 'border-gray-300'
                     }`}
                     style={{ backgroundColor: c.value }}
@@ -726,7 +999,7 @@ export default function DrawingGame() {
             onTouchMove={draw}
             onTouchEnd={stopDrawing}
             className={`border-4 border-purple-300 rounded-2xl touch-none ${
-              tool === 'sticker' ? 'cursor-pointer' : 'cursor-crosshair'
+              tool === 'sticker' || tool === 'stamp' ? 'cursor-pointer' : tool === 'fill' ? 'cursor-cell' : 'cursor-crosshair'
             }`}
             style={{ maxWidth: '100%', height: 'auto' }}
           />
@@ -734,9 +1007,9 @@ export default function DrawingGame() {
 
         <div className="mt-6 bg-white/70 backdrop-blur-sm px-6 py-4 rounded-xl text-center">
           <p className="text-purple-600 font-semibold text-lg">
-            💡 Нажми "😺 СТИКЕРЫ КОТИКОВ" и тыкай на холст чтобы добавить стикеры!
+            🎨 10+ ИНСТРУМЕНТОВ: Кисть, Спрей, Заливка, Волшебство, Радуга, Неон, Зеркало!
             <br />
-            12 котиков + сердечки, звёздочки, цветочки! 🎨✨💖
+            😺 28 Стикеров + 🎨 12 Штампов + 📋 4 Раскраски! ✨💖
           </p>
         </div>
       </div>
